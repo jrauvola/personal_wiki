@@ -57,6 +57,18 @@ Tier semantics:
 
 ---
 
+## lpcvc-2026-track1 — LPCVC 2026 Image-to-Text Retrieval (Team Manifold)
+
+**Status:** active
+**Goal:** Submit best image-to-text retrieval model to LPCVC 2026 Track 1, optimizing Recall@10 under hard latency gate (image+text encoders combined < 35 ms on Qualcomm XR2 Gen 2). Submission window closes 2026-04-30.
+**Codebase:** `/Users/jrauvola/Desktop/lpcvc-submission-team-manifold/`
+**Primary interest:** MobileCLIP/MobileCLIP2 family deployment, ONNX export with baked preprocessing for QNN context binary, INT8/W8A8 quantization on Qualcomm NPU (QAI Hub native vs ONNX Runtime AIMET), activation function replacement for QNN bottlenecks (swish/GELU → ReLU/ReLU²/Hard-Swish), self-training / LoRA fine-tuning recipes for CLIP retrieval, compositionality benchmarks for fine-grained attribute retrieval (SugarCrepe, ColorSwap, Winoground, ARO).
+**Secondary:** SigLIP2 / TripletCLIP alternative backbones, FastViT-MCi2 architecture, Matryoshka embeddings, Hexagon-MLIR / Triton kernels for Qualcomm NPU, Flash Attention for HTP, LPCV 2025 Track 1 winning solution analysis.
+**Reference:** general CLIP / vision-language retrieval, mobile CV deployment.
+**Source spec:** [[projects/lpcvc-2026-track1/overview]]
+
+---
+
 ## spar-latent-reasoning — Umbrella
 
 **Status:** evergreen

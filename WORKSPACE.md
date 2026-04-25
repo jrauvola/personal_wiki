@@ -36,6 +36,18 @@ The active project determines which `projects/<slug>/` workspace surfaces (hot, 
 - [[projects/spar-latent-reasoning/experiments]] — experiment tracker
 **Sub-branches:** branch-a (Stable Qwen3 Scaling), branch-b (Min-Sufficient Detach), branch-c (Qwen3 Convergence), branch-d (LT-Tuning CPF on CODI). See [[meta/projects/REGISTRY]] for branch details.
 
+### lpcvc-2026-track1
+
+**Status:** active (deadline 2026-04-30)
+**Goal:** Submit best image-to-text retrieval model to LPCVC 2026 Track 1, optimizing Recall@10 under hard latency gate (<35 ms combined image+text on Qualcomm XR2 Gen 2).
+**Codebase:** `/Users/jrauvola/Desktop/lpcvc-submission-team-manifold/`
+**Workspace surfaces:**
+- [[projects/lpcvc-2026-track1/hot]] — recent context cache
+- [[projects/lpcvc-2026-track1/index]] — page index
+- [[projects/lpcvc-2026-track1/log]] — ingest + change log
+- [[projects/lpcvc-2026-track1/overview]] — project overview
+- [[projects/lpcvc-2026-track1/experiments]] — experiment tracker
+
 ---
 
 ## Shared (cross-project) surfaces
