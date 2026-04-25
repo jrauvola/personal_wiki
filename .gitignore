@@ -17,3 +17,8 @@ Thumbs.db
 
 # Trash
 .trash/
+
+# Tools secrets
+.tools/**/.env
+.tools/**/__pycache__/
+.tools/**/.venv/

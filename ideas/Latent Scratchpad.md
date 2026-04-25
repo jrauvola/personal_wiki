@@ -2,15 +2,15 @@
 type: idea
 title: "Latent Scratchpad"
 created: 2026-04-24
-updated: 2026-04-24
+updated: 2026-04-25
 tags:
   - idea
   - architecture/hybrid
   - interpretability
   - faithfulness
   - domain/latent-reasoning
-status: promoted-to-plan
-maturity: planned
+status: demoted-contingent
+maturity: parked-with-warnings
 plan_link: /Users/jrauvola/Desktop/Latent_Reasoning_Project/plans/wave3/W3.5_latent_scratchpad.md
 grounding_sources:
   - "[[Latent Sketchpad]]"
@@ -38,6 +38,32 @@ reviewed_by: josh
 ---
 
 # Latent Scratchpad
+
+## ⚠️ CRITICAL REVISION 2026-04-25 — DEMOTED
+
+After critique session 2026-04-25, this idea is **demoted to contingent**. Status: 🚫 do not pursue without (a) resolving four research-level pre-commit warnings AND (b) failing three simpler interventions first. See `plans/wave3/W3.5_latent_scratchpad.md` § "Status update 2026-04-25 (post-critique)" for full details. Summary:
+
+**Activation conditions** (ALL must hold to revisit):
+1. Pre-Step #0 KV-norm probe shows the bandwidth-deficit hypothesis is empirically supported.
+2. LT-Tuning Phase 0 fails (Case C — F5 still null, loop ≥99%, GSM8k <15%).
+3. W2.4b SIM-CoT Phase 2a fails or only partially clears gates.
+
+**Pre-commit warnings (research-level open problems, not implementation details):**
+1. **Dynamic batching with discrete emissions** — no published LLM-scale implementation; FlashAttention paths break.
+2. **Loss design without teacher-CoT alignment** — IB / contrastive / reconstruction all hand-wavy at scale; no recipe.
+3. **Discrete gate training at LLM scale** — NTM credit-assignment problem inherited; no published evidence of stable training at >1B.
+4. **Credit assignment through non-differentiable boundaries** — LSTM analogy is architecturally elegant but mechanically false; closer to NTM, which historically failed at scale.
+
+**Bigger strategic critique:** scratchpad doesn't fix a learned attractor unless we change the training signal. If we change the training signal, why need the scratchpad? SIM-CoT (W2.4b) is the simpler training-signal fix — if it works, W3.5 is unnecessary.
+
+**Compression framing — downgraded.** Previously pinned as established truth; now flagged as hypothesis stack with verified-number gaps:
+- "GPT-2 86% on GSM8K" — paper-reported is ~43%; the 86% number may be a Christopher-specific measurement.
+- "Latent KV disappears" — Christopher's hypothesis, not a verified finding. Pre-Step #0 tests it.
+- "Discrete tokens preserve information better than continuous KV" — false (lower bits/token capacity).
+
+The mechanical content below is preserved as research-aspiration framing, not as commit-ready material.
+
+---
 
 ## The idea in two paragraphs
 

@@ -35,9 +35,13 @@ Catalog of research ideas that surfaced during this project but aren't yet full 
 
 ## Active
 
-| Idea | Status | Maturity | Grounding | Links |
-|---|---|---|---|---|
-| [[Latent Scratchpad]] | promoted-to-plan | planned | [[Latent Sketchpad]], [[Token Assorted]], [[HRPO]] | `plans/wave3/W3.5_latent_scratchpad.md` |
+(none currently active — see Demoted / contingent below)
+
+## Demoted / contingent (2026-04-25)
+
+| Idea | Status | Activation conditions | Links |
+|---|---|---|---|
+| [[Latent Scratchpad]] | demoted-contingent | 4 pre-commit warnings unresolved + 3 simpler interventions must fail (Pre-Step #0 KV-norm, LT-Tuning Phase 0, W2.4b SIM-CoT) | `plans/wave3/W3.5_latent_scratchpad.md` |
 
 ## Parked (future milestone)
 

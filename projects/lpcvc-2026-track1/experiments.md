@@ -21,4 +21,4 @@ Root index of all experiments. Each experiment is a node under `experiments/<slu
 
 ## Completed experiments
 
-(none yet — pre-existing experiments in the codebase will be ingested separately)
+- [[experiments/s2-vs-websearch-routing-rule]] — 2026-04-25, status: success. Hypothesis (S2 wins on academic) was wrong. WebSearch wins keyword discovery on every topic. Codified routing: WebSearch for discovery, S2 for citation-graph expansion only. Surfaced two new high-value findings: `--lite_mp` flag for partial mixed precision on Hub, and arXiv 2604.19054 (LPCV 2025 evaluation paper).
