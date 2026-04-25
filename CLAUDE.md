@@ -1,7 +1,8 @@
 # Latent Reasoning Research Wiki — Claude Instructions
 
-**Vault path:** `/Users/jrauvola/Desktop/Latent_Reasoning_Project/wiki/`
-**`.raw/` path:** `/Users/jrauvola/Desktop/Latent_Reasoning_Project/.raw/` (parallel to vault at project root, not inside `wiki/` — matches plugin hook expectations)
+**Vault path:** `/Users/jrauvola/Desktop/wiki/`
+**`.raw/` path:** `/Users/jrauvola/Desktop/wiki/.raw/` (gitignored; staging area for sources awaiting ingest)
+**Git remote:** `jrauvola/wiki` (private GitHub)
 **Project:** SPAR fellowship — Latent Reasoning Interpretability
 **Purpose:** Persistent, compounding knowledge base of latent-reasoning literature, with tiered relevance against active investigation branches.
 
