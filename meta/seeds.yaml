@@ -1,0 +1,946 @@
+# Seed registry for paper-crawl skill.
+# Adding a seed = append to this file; the paper-crawl skill will expand each seed
+# into its citation graph (depth = crawl_depth) and call wiki-ingest on every paper.
+#
+# Status values:
+#   pending    — not yet ingested
+#   ingested   — source page exists, citation-graph expansion not yet run
+#   crawled    — full citation-graph crawl completed
+#   failed     — crawl failed (see error field)
+#   skipped    — manually skipped
+
+seeds:
+  # === Branch D — LT-Tuning and anti-collapse literature ===
+  - arxiv: "2602.10229"
+    title: "Latent Thoughts Tuning"
+    projects: [branch-d]
+    crawl_depth: 2
+    status: ingested   # seed paper ingested 2026-04-23; awaiting S2_API_KEY for citation-graph expansion
+    ingested_at: 2026-04-23
+    notes: "Primary Branch D target — CPF recipe + 3-stage curriculum. Source page: [[Latent Thoughts Tuning]]."
+
+  - arxiv: "2509.20317"
+    title: "SIM-CoT — Supervised Implicit Chain-of-Thought"
+    projects: [branch-d, branch-a]
+    crawl_depth: 2
+    status: crawled   # downstream-citation crawl completed 2026-04-23 (10 papers ingested)
+    ingested_at: 2026-04-22
+    crawled_at: 2026-04-23
+    notes: "Auxiliary-decoder anti-collapse. Complements LT-Tuning. Source page: [[SIM-CoT]]. Downstream crawl: 20 S2 citations → 10 ingested (see '# === Crawled from SIM-CoT downstream 2026-04-23 ===' section below)."
+
+  # === Foundational latent reasoning ===
+  - arxiv: "2412.06769"
+    title: "COCONUT — Training LLMs to Reason in a Continuous Latent Space"
+    projects: [spar-latent-reasoning, branch-a]
+    crawl_depth: 2
+    status: ingested   # source page created 2026-04-22 from research.md migration
+    ingested_at: 2026-04-22
+    notes: "Foundational latent-reasoning paradigm. Source page: [[COCONUT]]."
+
+  # === CODI (our harness base) ===
+  - arxiv: "2502.21074"
+    arxiv_resolved_at: 2026-04-23
+    title: "CODI — Compressing Chain-of-Thought into Continuous Space via Self-Distillation"
+    projects: [branch-a, branch-b, branch-d]
+    crawl_depth: 2
+    status: crawled
+    ingested_at: 2026-04-22
+    crawled_at: 2026-04-23
+    papers_ingested: 10
+    notes: "Source page: [[CODI]]. Authors: Zhenyi Shen, Hanqi Yan, Linhai Zhang, Zhanghao Hu, Yali Du, Yulan He. Code: github.com/zhenyi4/codi. HF: zen-E/CODI-*. Downstream crawl 2026-04-23: 127 S2 citations, 116 arxiv-resolved, 10 full-ingested after dedupe against 11 existing + parallel crawls (COCONUT, CoLaR, Ouro)."
+
+  # === KaVa — KV-cache distillation ===
+  - arxiv: "2510.02312"
+    title: "KaVa — Compressed KV-Cache Distillation"
+    projects: [branch-b, branch-d]
+    crawl_depth: 1
+    status: ingested   # source page created 2026-04-22 from kava_notes.md + research.md migration
+    ingested_at: 2026-04-22
+    notes: "KV-compression + Jacobi stabilization at 7B. Source page: [[KaVa]]."
+
+  # === Resolved 2026-04-23: CoLaR / Adaptive Latent RL / ReGuLaR / LaSER / PonderLM-3 / Ouro ===
+
+  - arxiv: "2505.16552"
+    arxiv_resolved_at: 2026-04-23
+    title: "Think Silently, Think Fast — Dynamic Latent Compression of LLM Reasoning Chains (CoLaR)"
+    projects: [spar-latent-reasoning, branch-d, branch-a]
+    crawl_depth: 2
+    status: crawled
+    ingested_at: 2026-04-23
+    crawled_at: 2026-04-23
+    papers_ingested: 10
+    notes: "Source page: [[CoLaR]]. Authors: Tan, Li, Ju, Luo, Luan, Song. NeurIPS 2025 poster. v6 revision Feb 2026. Downstream crawl 2026-04-23: 47 S2 citations, 46 arxiv-resolved, 10 full-ingested after dedup against 11 existing + parallel crawls."
+
+  - arxiv: "2511.21581"
+    arxiv_resolved_at: 2026-04-23
+    title: "Learning When to Stop — Adaptive Latent Reasoning via Reinforcement Learning"
+    projects: [spar-latent-reasoning, branch-a, branch-d]
+    crawl_depth: 2
+    status: ingested
+    ingested_at: 2026-04-23
+    notes: "Source page: [[Adaptive Latent RL]]. Authors: Alex Ning, Yen-Ling Kuo, Gabe Gomes. Code: github.com/apning/adaptive-latent-reasoning. HF org: Lapisbird."
+
+  - arxiv: "2601.23184"
+    arxiv_resolved_at: 2026-04-23
+    title: "ReGuLaR — Variational Latent Reasoning Guided by Rendered Chain-of-Thought"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 2
+    status: ingested
+    ingested_at: 2026-04-23
+    notes: "Source page: [[ReGuLaR]]. Authors: Fanmeng Wang, Haotian Liu, Guojiang Zhao, Hongteng Xu, Zhifeng Gao. Code: github.com/FanmengWang/ReGuLaR."
+
+  - arxiv: "2603.01425"
+    arxiv_resolved_at: 2026-04-23
+    title: "LaSER — Internalizing Explicit Reasoning into Latent Space for Dense Retrieval"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 2
+    status: ingested
+    ingested_at: 2026-04-23
+    notes: "Source page: [[LaSER]]. Alibaba Tongyi Lab. Authors: Jin, Zhang, Li, Long, Xie, Zhu, Dou. Code: github.com/ignorejjj/LaSER. Domain-specialized (dense retrieval / BRIGHT)."
+
+  - arxiv: "2603.02023"
+    arxiv_resolved_at: 2026-04-23
+    title: "PonderLM-3 — Adaptive Token-Wise Pondering with Differentiable Masking"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 2
+    status: ingested
+    ingested_at: 2026-04-23
+    notes: "Source page: [[PonderLM-3]]. Authors: He Li, Feichen Song, Boyi Zeng, Shixiang Song, Zhiqin John Xu, Ziwei He, Zhouhan Lin. Built on PonderLM-2 backbone."
+
+  - arxiv: "2510.25741"
+    arxiv_resolved_at: 2026-04-23
+    title: "Scaling Latent Reasoning via Looped Language Models (Ouro / LoopLM)"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 2
+    status: crawled
+    ingested_at: 2026-04-23
+    crawled_at: 2026-04-23
+    papers_ingested: 10
+    notes: "Source page: [[Ouro]]. 33 authors; lead Rui-Jie Zhu. ByteDance Seed + UCSC + Princeton + Mila (Bengio, Eshraghian). Project: ouro-llm.github.io. Downstream crawl 2026-04-23: 41 S2 citations, 40 arxiv-resolved, top-10 ingested after dedupe against 11 existing sources + parallel crawls (COCONUT, CODI, CoLaR)."
+
+  # === Crawled from Ouro downstream 2026-04-23 ===
+  # Seed: Ouro / LoopLM (2510.25741) — 41 S2 citations, 40 arxiv. 10 full-ingested
+  # after relevance filter (looped-LM / scaling / interp / curriculum).
+  # NOTE: 2604.04902 (Are LRMs Easily Interpretable) was co-discovered by CoLaR crawl;
+  # source page created here, seeds entry above under CoLaR section.
+
+  - arxiv: "2510.04573"
+    arxiv_resolved_at: 2026-04-23
+    title: "LaDiR — Latent Diffusion Enhances LLMs for Text Reasoning"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2510.25741"
+    notes: "Source page: [[LaDiR]]. Authors: Kang, Zhang, Kuang, Majamaki, Jaitly, Ma, Qin. VAE-structured latent-diffusion flow-matching reasoner. LLaMA-3.1-8B backbone; outperforms Coconut on 7 math benchmarks; +30pt Pass@1 on Countdown CD-5."
+
+  - arxiv: "2602.10097"
+    arxiv_resolved_at: 2026-04-23
+    title: "Step-resolved data attribution for looped transformers (SDI)"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2510.25741"
+    notes: "Source page: [[Step-Decomposed Influence]]. Authors: Kaissis, Mildenberger, Gomez, Menten, Triantafillou. TracIn decomposed by loop iteration; TensorSketch makes it scale. Companion for tuned-lens on Ouro."
+
+  - arxiv: "2604.12946"
+    arxiv_resolved_at: 2026-04-23
+    title: "Parcae — Scaling Laws For Stable Looped Language Models"
+    projects: [spar-latent-reasoning, branch-b]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2510.25741"
+    notes: "Source page: [[Parcae]]. Authors: Prairie, Novack, Berg-Kirkpatrick, Fu (UCSD + Together-AI lineage). Negative-diagonal parameterization + ZOH discretization constrains ρ(Ā)<1. 1.3B/100B PPL −6.3% vs prior RDM; μ_rec ∝ FLOP^0.40; L(T)=L_∞ + Z·exp(−zT)."
+
+  - arxiv: "2604.11791"
+    arxiv_resolved_at: 2026-04-23
+    title: "A Mechanistic Analysis of Looped Reasoning Language Models"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2510.25741"
+    notes: "Source page: [[Mechanistic Analysis of Looped Reasoning LMs]]. Authors: Blayney, Arroyo, Obando-Ceron, Castro, Courville, Bronstein, Dong (Oxford + Mila). Analyzes Ouro 1.4B, Huginn-0125, retrofitted Llama/OLMo. Cyclic fixed points per layer; attention stabilizes 1-2 iters; Ouro drifts past T_train → mechanism for T>4 degradation."
+
+  - arxiv: "2602.16490"
+    arxiv_resolved_at: 2026-04-23
+    title: "From Growing to Looping — A Unified View of Iterative Computation in LLMs"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2510.25741"
+    notes: "Source page: [[From Growing to Looping]]. Authors: Kapl, Angelis, Maile, von Oswald, Bauer (Max Planck / Google Brain). SmolLM-v1 360M/1.7B; depth-growing and looping share mechanistic signatures; inference-time middle-block looping on grown models gives 2× on reasoning primitives. Cheaper alternative to from-scratch looped pretraining."
+
+  - arxiv: "2602.10520"
+    arxiv_resolved_at: 2026-04-23
+    title: "RLTT — Rewarding Latent Thought Trajectories in LoopLMs"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2510.25741"
+    notes: "Source page: [[RLTT]]. Authors: Williams, Tureci. Trajectory-level credit assignment fixes Ouro's GRPO/DAPO RL failure. On Ouro-2.6B-Thinking: +14.4 MATH-500, +16.6 AIME24, +34.3 GSM8K over GRPO."
+
+  - arxiv: "2511.08577"
+    arxiv_resolved_at: 2026-04-23
+    title: "Think-at-Hard — Selective Latent Iterations"
+    projects: [spar-latent-reasoning, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2510.25741"
+    notes: "Source page: [[Think-at-Hard]]. Authors: Fu, You, Chen, Dai, Yang, Wang (Tsinghua NICS). Qwen3-0.6B/1.7B base; neural decider + LoRA + duo-causal attention. Only 6% tokens iterate; 4-5% avg gain at same params. Code: github.com/thu-nics/TaH."
+
+  - arxiv: "2509.25239"
+    arxiv_resolved_at: 2026-04-23
+    title: "A Formal Comparison Between Chain-of-Thought and Latent Thought"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2510.25741"
+    notes: "Source page: [[Formal CoT vs Latent]]. Authors: Xu, Sato (University of Tokyo). Looped TF captures TC^k at log^k n iters; CoT ⊆ TC^{k-1}. CoT wins on approximate counting/sampling (FPRAS). Code: github.com/kevin671/cot-vs-loop."
+
+  - arxiv: "2603.08391"
+    arxiv_resolved_at: 2026-04-23
+    title: "Adaptive Loops and Memory in Transformers — Think Harder or Know More?"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2510.25741"
+    notes: "Source page: [[Adaptive Loops and Memory]]. Authors: Frey, Shomali, Bashir, Berghaus, Koehler, Ali (Fraunhofer IAIS). 200M 12-layer decoder + per-layer adaptive looping (halting router) + gated memory banks (1024 local/512 global slots). Looping → math; memory → commonsense. ICLR 2026 Latent & Implicit Thinking Workshop."
+
+  # Co-discovered with CoLaR crawl (source page created during Ouro crawl):
+  # - arxiv: "2604.04902" (Are LRMs Easily Interpretable) — see CoLaR crawl section above.
+
+
+  # === Crawled from CoLaR downstream 2026-04-23 ===
+  # Seed: CoLaR (2505.16552) — 47 S2 citations, 46 with arXiv IDs; 10 selected for full-ingest after
+  # dedupe against 11 existing sources + parallel crawls (COCONUT, CODI, Ouro).
+  # Filter: isInfluential > infCit > cit; relevance = latent reasoning, compression, stochastic latent,
+  # interpretability, curriculum theory, feature collapse.
+
+  - arxiv: "2509.25020"
+    arxiv_resolved_at: 2026-04-23
+    title: "MARCOS — Deep Thinking by Markov Chain of Continuous Thoughts"
+    projects: [spar-latent-reasoning, branch-d, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.16552"
+    notes: "Source page: [[MARCOS]]. Authors: Liu, Huang, Sims, Chen, Teh, Miao. First continuous-reasoning method claiming to surpass token CoT on GSM8K (+4.7%). No code released. Raw file previously seeded by COCONUT crawler."
+
+  - arxiv: "2602.22441"
+    arxiv_resolved_at: 2026-04-23
+    title: "How Do Latent Reasoning Methods Perform Under Weak and Strong Supervision?"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.16552"
+    notes: "Source page: [[Weak vs Strong Supervision Study]]. Authors: Cui et al. (Michigan State, Jiliang Tang). Identifies shortcut-behavior vs diversity supervision trade-off."
+
+  - arxiv: "2602.01695"
+    arxiv_resolved_at: 2026-04-23
+    title: "LSTR — Beyond Dense States: Elevating Sparse Transcoders to Active Operators"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.16552"
+    notes: "Source page: [[LSTR]]. Authors: Y. Wang, H. Chen, Y. Tian, C. Geng, D. Liang, X. Chen. Sparse-transcoder-as-operator bridge between SAE interpretability and latent reasoning."
+
+  - arxiv: "2510.15522"
+    arxiv_resolved_at: 2026-04-23
+    title: "Latent-SFT — LLM Latent Reasoning as Chain of Superposition"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.16552"
+    notes: "Source page: [[Latent-SFT]]. Authors: Deng et al. (ICT CAS — Huawei Shen, Xueqi Cheng). Latent-Vocab constraint ≡ LT-Tuning CPF independently derived; Gumbel-Softmax for superposition."
+
+  - arxiv: "2510.05069"
+    arxiv_resolved_at: 2026-04-23
+    title: "SwiReasoning — Switch-Thinking in Latent and Explicit (ICLR 2026)"
+    projects: [spar-latent-reasoning, branch-d, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.16552"
+    notes: "Source page: [[SwiReasoning]]. Authors: Shi, Asi, Li, Yuan, Pan, Lee, Xiao (Wenke Lee / Georgia Tech). Training-free entropy-routed hybrid; ICLR 2026."
+
+  - arxiv: "2510.07745"
+    arxiv_resolved_at: 2026-04-23
+    title: "Parallel Test-Time Scaling for Latent Reasoning Models (ACL 2026 Main)"
+    projects: [spar-latent-reasoning, branch-d, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.16552"
+    notes: "Source page: [[Parallel TTS Latent]]. Authors: You, Li, Liu, Wang, Nie, Li. First parallel TTS for latent reasoning; MC Dropout + Gaussian Noise + LatentRM."
+
+  - arxiv: "2604.17892"
+    arxiv_resolved_at: 2026-04-23
+    title: "LEPO — Latent Reasoning Policy Optimization"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.16552"
+    notes: "Source page: [[LEPO]]. Authors: Zhou, Yu, Dong, Hao, Wang, Zhang, Lin. Gumbel-Softmax RL for latent reasoning; unified gradient estimator for latent + token."
+
+  - arxiv: "2602.01148"
+    arxiv_resolved_at: 2026-04-23
+    title: "Capabilities and Fundamental Limits of Latent Chain-of-Thought"
+    projects: [spar-latent-reasoning, branch-d, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.16552"
+    notes: "Source page: [[Capabilities and Limits of Latent CoT]]. Authors: Zou, Xiong, Liu. Theoretical keystone — Symbolic Index, Exploration-Execution Trade-off, proves curriculum is necessary. ProsQA 97% / GSM8K 34.1%."
+
+  - arxiv: "2508.03440"
+    arxiv_resolved_at: 2026-04-23
+    title: "Stochastic Soft Thinking (Single-Threaded Reasoners / Greedy Pitfall)"
+    projects: [spar-latent-reasoning, branch-d, branch-a]
+    crawl_depth: 2
+    status: crawled
+    ingested_at: 2026-04-23
+    crawled_at: 2026-04-23
+    papers_ingested: 9
+    discovered_via: "2505.16552"
+    notes: "Source page: [[Stochastic Soft Thinking]]. Authors: Wu, Lu, Ren, Hu, Wu, Dai, Wu (Baidu — Hua Wu). Diagnoses Greedy Pitfall in soft thinking; Gumbel-Softmax fix; 8-benchmark gains. Downstream crawl 2026-04-23: 19 S2 citations, 18 arxiv-resolved; 9 full-ingested after dedupe against 49 existing sources + parallel crawls (7 dupes: 2509.19170 Soft Tokens Hard Truths, 2510.04573 LaDiR, 2510.15522 Latent-SFT, 2510.05069 SwiReasoning, 2510.07745 Parallel TTS, 2602.08783 Dynamics of Latent CoT, 2604.17892 LEPO) + 1 wiki-source-exists dedup (2602.11683 ThinkRouter)."
+
+  - arxiv: "2604.04902"
+    arxiv_resolved_at: 2026-04-23
+    title: "Are Latent Reasoning Models Easily Interpretable?"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.16552"
+    notes: "Source page: [[Are Latent Reasoning Models Easily Interpretable]]. Authors: Dilgren, Wiegreffe (Sarah Wiegreffe, interp researcher). Finds latent tokens often unnecessary; 65-93% gold-trace decoding; interpretability as correctness signal."
+
+  # === Crawled from COCONUT downstream 2026-04-23 ===
+  # Seed: COCONUT (2412.06769) — 448 S2 citations across 5 pages, 420 with arXiv IDs after dedupe.
+  # Ranked by isInfluential -> influentialCitationCount -> citationCount; top 30 reviewed.
+  # 15 selected for full-ingest after relevance pre-filter. 6 deduped against existing vault pages
+  # that were ingested by parallel crawls (LaDiR, MARCOS, Stochastic Soft Thinking, Latent-SFT,
+  # System-1.5 Reasoning, SynAdapt-overlap). 9 new source pages created.
+
+  - arxiv: "2506.21734"
+    arxiv_resolved_at: 2026-04-23
+    title: "Hierarchical Reasoning Model (HRM)"
+    projects: [spar-latent-reasoning, branch-a, branch-b]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "arxiv:2412.06769 citation_graph"
+    notes: "Source page: [[Hierarchical Reasoning Model]]. Authors: Guan Wang et al. 27M params, no CoT, achieves 40.3% ARC-AGI. One-step DEQ gradient approximation replaces BPTT. PR-hierarchy H=89.95 / L=30.22 mirrors cortex."
+
+  - arxiv: "2505.15778"
+    arxiv_resolved_at: 2026-04-23
+    title: "Soft Thinking — Continuous Concept Space"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "arxiv:2412.06769 citation_graph"
+    notes: "Source page: [[Soft Thinking]]. Authors: Zhen Zhang et al. Training-free CoT in continuous concept space (probability-weighted mixture). Explicitly diagnoses 7B decoupled-embedding mismatch. Code: github.com/eric-ai-lab/Soft-Thinking."
+
+  - arxiv: "2502.03275"
+    arxiv_resolved_at: 2026-04-23
+    title: "Token Assorted — Mixing Latent and Text Tokens"
+    projects: [spar-latent-reasoning, branch-a, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "arxiv:2412.06769 citation_graph"
+    notes: "Source page: [[Token Assorted]]. Authors: DiJia Su (co-author on COCONUT), Hanlin Zhu, Yingchen Xu, Jiantao Jiao, Yuandong Tian, Qinqing Zheng. VQ-VAE discrete-latent-prefix + text-suffix. Llama-3.1-8B Fresh-Gaokao +13.3%."
+
+  - arxiv: "2505.12514"
+    arxiv_resolved_at: 2026-04-23
+    title: "Reasoning by Superposition — Theoretical Perspective on Continuous CoT"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "arxiv:2412.06769 citation_graph"
+    notes: "Source page: [[Reasoning by Superposition]]. NeurIPS 2025. Authors: Hanlin Zhu, Shibo Hao (COCONUT co-author), Zhiting Hu, Jiantao Jiao, Stuart Russell, Yuandong Tian. Proves 2-layer transformer + D continuous thoughts solves D-diameter graph reachability vs O(n^2) discrete."
+
+  - arxiv: "2505.11484"
+    arxiv_resolved_at: 2026-04-23
+    title: "SoftCoT++ — Test-Time Scaling with Soft Chain-of-Thought"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "arxiv:2412.06769 citation_graph"
+    notes: "Source page: [[SoftCoT Plus Plus]]. Authors: Yige Xu et al. Multiple specialized init tokens + contrastive loss on frozen assistant LLM. Complementary to self-consistency. Code: github.com/xuyige/SoftCoT."
+
+  - arxiv: "2505.13775"
+    arxiv_resolved_at: 2026-04-23
+    title: "Beyond Semantics — Reasonless Intermediate Tokens"
+    projects: [spar-latent-reasoning, branch-c]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "arxiv:2412.06769 citation_graph"
+    notes: "Source page: [[Beyond Semantics Reasonless Tokens]]. Authors: Karthik Valmeekam, Kaya Stechly, Vardhan Palod, Atharva Gundawar, Subbarao Kambhampati (ASU). Swap-trace experiment: randomly permuting traces still yields competitive plan accuracy. Challenges R1-trace semantic-correctness narrative."
+
+  - arxiv: "2505.23648"
+    arxiv_resolved_at: 2026-04-23
+    title: "Continuous Chain of Thought Enables Parallel Exploration (CoT2)"
+    projects: [spar-latent-reasoning, branch-a, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "arxiv:2412.06769 citation_graph"
+    notes: "Source page: [[Continuous CoT Parallel Exploration]]. ICLR 2026. Authors: Gozeten, Ildiz, Zhang, Harutyunyan, Rawat, Oymak. CSFT (convex-combo KL targets) + Dirichlet-GRPO RL. 2-layer + MoE solves MNNS."
+
+  - arxiv: "2505.12629"
+    arxiv_resolved_at: 2026-04-23
+    title: "Latent Tokens — Enhancing Latent Computation"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "arxiv:2412.06769 citation_graph"
+    notes: "Source page: [[Latent Tokens]]. Authors: Yuchang Sun, Yanxi Chen, Yaliang Li, Bolin Ding. Periodic learnable latent tokens (Comma_m) outperform Start/End prompt-tuning. 23%/127%/220% relative OOD gains on 3 synthetic tasks (Llama-3.2-1B)."
+
+  - arxiv: "2506.08552"
+    arxiv_resolved_at: 2026-04-23
+    title: "Efficient Post-Training Refinement of Latent Reasoning"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "arxiv:2412.06769 citation_graph"
+    notes: "Source page: [[Efficient Post-Training Refinement]]. Authors: Xinyuan Wang et al. Training-free forward-pass-only refinement of Coconut-style models. Contrastive Reasoning Feedback Search + Residual Embedding Refinement. Generalizes across GPT-2 / Qwen-2.5-1.5B / LLaMA-3.2-3B."
+
+  # === Dedupe notes: following 6 COCONUT downstream candidates were already ingested by parallel crawls ===
+  # - 2508.03440 (Stochastic Soft Thinking / Soft Thinking Mechanism) — ingested via CoLaR crawl
+  # - 2505.18962 (System-1.5 Reasoning) — already in vault pre-crawl
+  # - 2510.04573 (LaDiR) — already in vault pre-crawl
+  # - 2510.15522 (Latent-SFT / Chain of Superposition) — ingested via CoLaR crawl
+  # - 2509.25020 (MARCOS) — ingested via CoLaR crawl
+
+  # === Crawled from CODI downstream 2026-04-23 ===
+  # Seed: CODI (2502.21074) — 127 S2 citations, 116 with arXiv IDs; 10 selected for full-ingest
+  # after dedupe against 11 existing sources + parallel crawls (COCONUT, CoLaR, Ouro).
+  # Filter: isInfluential > infCit > cit; relevance = CODI-family self-distillation, CPF-fusion,
+  # interpretability, parallel rollout, scaling, RL continuous CoT.
+
+  - arxiv: "2506.11752"
+    arxiv_resolved_at: 2026-04-23
+    title: "DART — Distilling Autoregressive Reasoning to Silent Thought"
+    projects: [branch-d, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.21074"
+    notes: "Source page: [[DART]]. Authors: Jiang, Wu, Zhan, Lai, Lian. Self-distillation + Reasoning Evolvement Module (REM) — close cousin of CODI; non-autoregressive ST pathway."
+
+  - arxiv: "2510.24940"
+    arxiv_resolved_at: 2026-04-23
+    title: "SemCoT — Semantically-Aligned Implicit Tokens"
+    projects: [branch-d, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.21074"
+    notes: "Source page: [[SemCoT]]. Authors: He et al. (LinkedIn). Contrastive sentence transformer for semantic alignment + lightweight implicit-reasoning generator via KD. Code: github.com/YinhanHe123/SemCoT/."
+
+  - arxiv: "2506.18582"
+    arxiv_resolved_at: 2026-04-23
+    title: "PCCoT — Parallel Continuous Chain-of-Thought with Jacobi Iteration"
+    projects: [branch-d, branch-b, branch-a, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.21074"
+    notes: "Source page: [[PCCoT]]. Authors: Wu, Teng, Tu (ShanghaiTech / Kewei Tu lab). Jacobi parallel rollout replaces sequential continuous CoT; ~50% training/inference speedup; improved stability. Code: github.com/whyNLP/PCCoT."
+
+  - arxiv: "2508.00574"
+    arxiv_resolved_at: 2026-04-23
+    title: "SynAdapt — Synthetic CCoT + Adaptive Re-think"
+    projects: [branch-d, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.21074"
+    notes: "Source page: [[SynAdapt]]. Authors: J. Wang, Z. Wu, F. Lai, S. Lian, Z. Zeng. Synthetic CCoT as explicit alignment target + difficulty classifier + adaptive re-think on hard questions."
+
+  - arxiv: "2505.18962"
+    arxiv_resolved_at: 2026-04-23
+    title: "System-1.5 Reasoning — Dynamic Shortcuts in Language and Latent Spaces"
+    projects: [branch-d, branch-a, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.21074"
+    notes: "Source page: [[System-1.5 Reasoning]]. Authors: X. Wang, S. Wang, Y. Zhu, B. Liu (MILA / Bang Liu lab). Two-stage self-distillation + DS/SS shortcuts; 20× GSM8K speedup, 92.31% token reduction."
+
+  - arxiv: "2509.19170"
+    arxiv_resolved_at: 2026-04-23
+    title: "Soft Tokens, Hard Truths — RL for Continuous CoT"
+    projects: [branch-a, branch-d, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.21074"
+    notes: "Source page: [[Soft Tokens Hard Truths]]. Authors: Butt, Kwiatkowski, Labiad, Kempe, Ollivier (Meta FAIR / NYU). First scalable RL-trained continuous CoT without distillation — Llama/Qwen ≤8B, hundreds of tokens."
+
+  - arxiv: "2602.08783"
+    arxiv_resolved_at: 2026-04-23
+    title: "Dynamics Within Latent Chain-of-Thought — Causal Structure Study"
+    projects: [branch-d, branch-c, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.21074"
+    notes: "Source page: [[Dynamics of Latent CoT]]. Authors: Li, Bai, Chen, Li, Yang, Lin, Zhang (HIT Shenzhen). First causal-SCM interp study of CODI+COCONUT. Staged functionality + early-bias/late-commitment gap. Code: github.com/J1mL1/causal-latent-cot."
+
+  - arxiv: "2603.08177"
+    arxiv_resolved_at: 2026-04-23
+    title: "Is Continuous CoT Better for Multilingual Reasoning?"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.21074"
+    notes: "Source page: [[Continuous CoT Multilingual]]. Authors: Bashir, Shomali, Frey, Ali, Sifa, Berghaus (Fraunhofer IAIS / Bonn). CODI-framework multilingual eval; 29-50× compression; CODI wins on low-resource zero-shot."
+
+  - arxiv: "2602.14077"
+    arxiv_resolved_at: 2026-04-23
+    title: "GTS — Gaussian Thought Sampler for Latent Inference-Time Scaling"
+    projects: [branch-d, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.21074"
+    notes: "Source page: [[GTS]]. Authors: M. Wang, Y. Bai, T. Vu, E. Shareghi, G. Haffari (Monash). Learned conditional Gaussian perturbation + GRPO (backbone frozen) for latent ITS."
+
+  - arxiv: "2505.18454"
+    arxiv_resolved_at: 2026-04-23
+    title: "HRPO — Hybrid Latent Reasoning via Reinforcement Learning"
+    projects: [branch-d, branch-a, branch-b, spar-latent-reasoning]
+    crawl_depth: 1
+    status: crawled
+    ingested_at: 2026-04-23
+    crawled_at: 2026-04-23
+    papers_ingested: 3
+    discovered_via: "2502.21074"
+    notes: "Source page: [[HRPO]]. Authors: Yue, Jin, Zeng, Zhuang, Qin, Yoon, Shang, Han, Wang (UIUC / Google DeepMind). Learnable gated hidden-state+token fusion (structurally equivalent to LT-Tuning CPF) trained by RL without CoT traces. Downstream crawl 2026-04-23: 10 S2 citations, all arxiv-resolved, 3 full-ingested after filtering (3 already in vault; 4 out-of-scope: RAG, CRS, multimodal-Canvas, hop-grouped-RPO-search-agents)."
+
+  # === Crawled from HRPO downstream 2026-04-23 ===
+  # Seed: HRPO (2505.18454) — 10 S2 citations, all arxiv-resolved. 3 already in vault:
+  #   - 2602.10520 RLTT (via Ouro crawl), 2510.05069 SwiReasoning, 2505.23648 CoT-Parallel-Exploration.
+  # 4 out-of-scope dropped (2604.17866 LAnR/RAG; 2604.04457 RAR/CRS; 2602.10494 Canvas-CoT/multimodal;
+  # 2601.07055 Dr. Zero — coincidental "HRPO" acronym = hop-grouped-RPO, different mechanism).
+  # 3 full-ingested.
+
+  - arxiv: "2602.11683"
+    arxiv_resolved_at: 2026-04-23
+    title: "ThinkRouter — Confidence-Aware Routing between Latent and Discrete Spaces"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.18454"
+    notes: "Source page: [[ThinkRouter]]. Authors: Xin Xu, Tong Yu, Xiang Chen, Haoliang Wang, Julian McAuley, Saayan Mitra (UCSD / Adobe Research). Training-free inference-time binary routing between discrete-token-sampling and Soft-Thinking top-j soft embedding based on p_t^max < τ. +19.70 Pass@1 on Qwen3-1.7B STEM. Diagnoses the Soft-Thinking confidence pathology: incorrect trajectories have fewer low-confidence steps."
+
+  - arxiv: "2509.02350"
+    arxiv_resolved_at: 2026-04-23
+    title: "Implicit Reasoning in Large Language Models — A Comprehensive Survey"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.18454"
+    notes: "Source page: [[Implicit Reasoning Survey]]. Authors: Jindong Li, Yali Fu, Li Fan, Jiahong Liu, Yao Shu, Chengwei Qin, Menglin Yang, Irwin King, Rex Ying (HKUST-GZ / Jilin / CUHK / Yale). Three-paradigm taxonomy: latent-optimization, signal-guided-control, layer-recurrent-execution. HRPO mapped to internal-state-level latent optimization. Project: github.com/digailab/awesome-llm-implicit-reasoning."
+
+  - arxiv: "2512.10941"
+    arxiv_resolved_at: 2026-04-23
+    title: "Mull-Tokens — Modality-Agnostic Latent Thinking"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2505.18454"
+    notes: "Source page: [[Mull-Tokens]]. Authors: Arijit Ray, Ahmed Abdelkader, Chengzhi Mao, Bryan A. Plummer, Kate Saenko, Ranjay Krishna, Leonidas Guibas, Wen-Sheng Chu (Google / UW / Stanford / Boston Univ). Qwen2.5-VL 7B + K=10-40 modality-agnostic latent tokens. Three-stage curriculum (dual-modality warmup → relaxed SFT → GRPO refinement). +3% avg / +16% on puzzle split. Project: arijitray.com/multimodal_thinking."
+
+  # === Crawled from SIM-CoT downstream 2026-04-23 ===
+  - arxiv: "2602.04246"
+    arxiv_resolved_at: 2026-04-23
+    title: "CoLT — Reasoning with Chain of Latent Tool Calls"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[CoLT]]. Authors: Fangwei Zhu, Zhifang Sui. isInfluential=true in SIM-CoT citation graph. Seed-tokens + external unpacker — inverts SIM-CoT's aux-decoder-at-training-only into aux-decoder-at-inference. Compatible with RL + different decoder structures. Four math datasets."
+
+  - arxiv: "2602.01166"
+    arxiv_resolved_at: 2026-04-23
+    title: "LaRA-VLA — Latent Reasoning VLA"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[LaRA-VLA]]. Authors: S. Bai et al. (12). Three-stage curriculum (explicit→latent→action-conditioning) ≈ CODI/SIM-CoT/LT-Tuning pattern for VLA. 90% latency reduction vs explicit-CoT VLA. Project: loveju1y.github.io/Latent-Reasoning-VLA/."
+
+  - arxiv: "2604.18486"
+    arxiv_resolved_at: 2026-04-23
+    title: "OneVL — One-Step Latent Reasoning and Planning with Vision-Language Explanation"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[OneVL]]. Primary author Jinghui Lu + 49 co-authors (Xiaomi Embodied Intelligence). isInfluential=true. **Dual auxiliary decoders** (language + visual-world-model) + three-stage training pipeline. Discarded at inference; all latent tokens prefilled in single parallel pass. **Claimed first latent CoT to surpass explicit CoT** — load-bearing evidence for SPAR north-star thesis. Project: xiaomi-embodied-intelligence.github.io/OneVL/."
+
+  - arxiv: "2602.11683"
+    arxiv_resolved_at: 2026-04-23
+    title: "ThinkRouter — Confidence-Aware Routing between Latent and Discrete Spaces"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[ThinkRouter]]. Co-discovered via Stochastic Soft Thinking parallel crawl. Authors: Xu, Yu, Chen, Wang, McAuley, Mitra (Adobe + UCSD). Training-free inference-time routing (discrete if p_t^max<τ else latent). Counter-intuitive finding: incorrect latent trajectories have FEWER low-confidence steps than correct ones. +19.70 Pass@1 avg, -15.55% length."
+
+  - arxiv: "2602.08220"
+    arxiv_resolved_at: 2026-04-23
+    title: "Pretraining with Token-Level Adaptive Latent Chain-of-Thought"
+    projects: [spar-latent-reasoning, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[Adaptive Latent CoT Pretraining]]. Authors: B. Zeng et al. (SJTU, Zhouhan Lin group). Pretraining-scale variable-length latent CoT per-token; adaptive halting emerges from one-stage pretraining on general text, no curriculum. Llama architectures; FLOP-efficient vs recurrent baselines."
+
+  - arxiv: "2602.07075"
+    arxiv_resolved_at: 2026-04-23
+    title: "LatentChem — From Textual CoT to Latent Thinking in Chemical Reasoning"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[LatentChem]]. High-profile multi-institution (Oxford/Torr, Princeton/Mengdi Wang, Yale/Tang, Stanford/Cong, OSU/Huan Sun). Emergent latent reasoning from task-success-only optimization (no curriculum). 59.88% non-tie win vs CoT-baselines on ChemCoTBench; 10.84× reasoning overhead reduction."
+
+  - arxiv: "2601.21576"
+    arxiv_resolved_at: 2026-04-23
+    title: "ALiCoT — Aligned Implicit CoT (CoT Compression Theoretical Analysis)"
+    projects: [spar-latent-reasoning, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[ALiCoT]]. Authors: Juncai Li, Ru Li, Yuxiang Zhou, Boxiang Ma, Jeff Z. Pan (Edinburgh). **First theoretical analysis of CoT compression hardness**: Order-r Interaction → exponential signal decay for high-order logical dependencies on irreducible problems. NatBool-DAG benchmark for shortcut-eliminating logical reasoning. ALiCoT: align latent distributions with intermediate reasoning-state distributions. 54.4× speedup comparable to explicit CoT. Theoretical scaffolding for LT-Tuning/SIM-CoT/strong-supervision family."
+
+  - arxiv: "2602.13738"
+    arxiv_resolved_at: 2026-04-23
+    title: "OneLatent — Single-Token Compression for Visual Latent Reasoning"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[OneLatent]]. Authors: Bo Lv, Yasheng Sun, Junjie Wang, Haoxiang Shi. Single-latent-token compression with DeepSeek-OCR hidden states as supervision (render text CoT → image → OCR hidden states). 11× avg output length reduction at 2.21% avg accuracy drop; 99.80% ProntoQA / 97.80% ProsQA with ONE latent token; up to 87.4× compression."
+
+  - arxiv: "2604.10500"
+    arxiv_resolved_at: 2026-04-23
+    title: "Visual Enhanced Depth Scaling for Multimodal Latent Reasoning"
+    projects: [spar-latent-reasoning, branch-b]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[Visual Enhanced Depth Scaling]]. Authors: Y. Han, Y. Wang, Z. Yang, Z. Qu, L. Pan, X. Chu. **Token-level gradient-dynamics analysis during latent training**: (1) visual tokens have higher/more volatile gradient norms → systematic under-optimization; (2) complex tokens show persistent gradient instability bounded by fixed depth. Visual replay (causal-attention saliency) + routing depth scaling (adaptive extra steps for complex tokens) + standard curriculum. Methodology directly relevant to Branch B grad-stability diagnostics."
+
+  - arxiv: "2603.22280"
+    arxiv_resolved_at: 2026-04-23
+    title: "DualCoT-VLA — Visual-Linguistic CoT via Parallel Reasoning"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2509.20317"
+    notes: "Source page: [[DualCoT-VLA]]. Authors: Z. Zhong et al. (13). Two sets of learnable query tokens (visual CoT + linguistic CoT); single-step forward reasoning replaces autoregressive. SOTA on LIBERO + RoboCasa GR1 + real-world. Third of 3 parallel 2026 VLA latent-CoT extensions (with OneVL, LaRA-VLA)."
+
+  # === Crawled from Stochastic Soft Thinking downstream 2026-04-23 ===
+  # Seed: Stochastic Soft Thinking (2508.03440) — 19 S2 citations, 18 arxiv-resolved.
+  # Pre-filter: isInfluential > infCit > cit; relevance = Greedy Pitfall / stochastic latent /
+  # entropy-gated soft / Gumbel / soft-thinking mechanism / exploration collapse / shortcut behavior.
+  # Dedupe: 7 raw-paper dupes (Soft Tokens Hard Truths, LaDiR, Latent-SFT, SwiReasoning,
+  # Parallel TTS Latent, Dynamics of Latent CoT, LEPO) + 1 wiki-source-exists (ThinkRouter,
+  # pre-ingested by HRPO downstream crawl). 9 new full-ingests. Dropped 2603.00510 (MLLM
+  # visual sparsity — off-topic). Seed status updated to crawled; papers_ingested=9.
+
+  - arxiv: "2604.08299"
+    arxiv_resolved_at: 2026-04-23
+    title: "SeLaR — Selective Latent Reasoning in LLMs"
+    projects: [branch-d, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2508.03440"
+    notes: "Source page: [[SeLaR]]. Authors: Fu, Luo. Training-free entropy-gated soft embeddings + entropy-aware contrastive regularization (push away from top-1). Direct structural sibling to LT-Tuning CPF for anti-collapse. 5 benchmarks, beats SOTA training-free."
+
+  - arxiv: "2602.01698"
+    arxiv_resolved_at: 2026-04-23
+    title: "LED — Latent Exploration Decoding (isInfluential)"
+    projects: [spar-latent-reasoning, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2508.03440"
+    notes: "Source page: [[Latent Exploration Decoding]]. Authors: Tan, Parascandolo, Sangineto, Ju, Luo, Cao, Cucchiara, Song, Luan. Post-RL final-layer entropy collapses but intermediate layers keep entropy → depth-conditioned decoding. +0.61 pass@1, +1.03 pass@16. Training-free. Code: github.com/AlbertTan404/Latent-Exploration-Decoding."
+
+  - arxiv: "2601.08808"
+    arxiv_resolved_at: 2026-04-23
+    title: "Multiplex Thinking — Stochastic Soft Reasoning via Branch-and-Merge"
+    projects: [branch-d, branch-a, spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2508.03440"
+    notes: "Source page: [[Multiplex Thinking]]. Authors: Tang, L. Dong, Hao, Q. Dong, Wei, Gu (Furu Wei group). K-sample multiplex token in vocab embedding space (structurally = CPF e_pred with K instead of full vocab). Self-adaptive width. Pass@1-1024 beats discrete CoT/RL on math. Code + checkpoints: github.com/GMLR-Penn/Multiplex-Thinking."
+
+  - arxiv: "2602.01705"
+    arxiv_resolved_at: 2026-04-23
+    title: "LaDi-RL — Diversity-Preserving RL via Latent Diffusion Reasoner"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2508.03440"
+    notes: "Source page: [[LaDi-RL]]. Authors: Kang, Zhang, Kuang, Ma, Qin (UCSD). LaDiR extension: latent-diffusion RL avoids mode-elicitation collapse. +9.4% pass@1 code, +5.7% math."
+
+  - arxiv: "2505.16782"
+    arxiv_resolved_at: 2026-04-23
+    title: "Reasoning Beyond Language — Latent CoT Reasoning Survey"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2508.03440"
+    notes: "Source page: [[Latent CoT Survey]]. Authors: X. Chen, A. Zhao, H. Xia, X. Lu, H. Wang, Y. Chen, W. Zhang, J. Wang, W. Li, X. Shen (EIT-NLP). Canonical survey — token-wise horizontal vs layer-wise vertical taxonomy; 34 cit / 2 infl. Registry: github.com/EIT-NLP/Awesome-Latent-CoT."
+
+  - arxiv: "2512.19171"
+    arxiv_resolved_at: 2026-04-23
+    title: "JEPA-Reasoner — Decoupling Latent Reasoning from Token Generation"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2508.03440"
+    notes: "Source page: [[JEPA-Reasoner]]. Authors: Liu, Chen, Woodruff (D.P. Woodruff — CMU). JEPA latent reasoner + separate Talker module. 0.9B: +149.5% 8-shot GSM8K over coupled Transformer baseline. Needs validation at larger scales."
+
+  - arxiv: "2603.13366"
+    arxiv_resolved_at: 2026-04-23
+    title: "LEAD — Latent Entropy-Aware Decoding for MLRMs"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2508.03440"
+    notes: "Source page: [[LEAD]]. 13 authors (Z. Xu, Z. Wang, Z. Qian, D. Shi, F. Tang, M. Hu, S. Su, X. Zou, W. Feng, Mahapatra, Y. Peng, M. Lin, Z. Ge). Multimodal twin of SeLaR — same entropy-gated soft recipe for MLRM hallucinations. Plus visual-anchor injection."
+
+  - arxiv: "2603.09786"
+    arxiv_resolved_at: 2026-04-23
+    title: "Opaque Serial Depth — Quantifying the Necessity of CoT"
+    projects: [spar-latent-reasoning, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2508.03440"
+    notes: "Source page: [[Opaque Serial Depth]]. Authors: Brown-Cohen, Lindner, Shah (Google DeepMind Safety). Formal measure: longest computation without interpretable intermediates. Numeric bounds on Gemma 3; asymptotic on other archs; MoE < dense depth. Open-source tool for arbitrary NNs."
+
+  - arxiv: "2602.14917"
+    arxiv_resolved_at: 2026-04-23
+    title: "BFS-PO — Best-First Search for Large Reasoning Models"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2508.03440"
+    notes: "Source page: [[BFS-PO]]. Authors: Parascandolo, Tan, Sangineto, Song, Cucchiara (same cluster as LED). Discrete RL: BFS with max-entropy node backtracking reduces overthinking. Accuracy ↑ + length ↓."
+
+
+  # === Seed: Scaling Up TTC (Huginn-0125) — ingested + crawled 2026-04-23 ===
+
+  - arxiv: "2502.05171"
+    arxiv_resolved_at: 2026-04-23
+    title: "Scaling Up TTC — Recurrent-Depth Latent Reasoning (Huginn-0125)"
+    projects: [spar-latent-reasoning, branch-a, branch-b, branch-d]
+    crawl_depth: 1
+    status: crawled
+    ingested_at: 2026-04-23
+    crawled_at: 2026-04-23
+    papers_ingested: 15
+    notes: "Source page: [[Scaling Up TTC]]. Authors: Geiping, McLeish, Jain, Kirchenbauer, Singh, Bartoldson, Kailkhura, Bhatele, Goldstein (UMD / ELLIS-MPI Tübingen / LLNL). Model: huggingface.co/tomg-group-umd/huginn-0125. Code: github.com/seal-rg/recurrent-pretraining. 3.5B params / 800B tokens / Frontier AMD cluster. Prelude / Recurrent-Core / Coda; truncated BPTT k=8; stochastic s_0; Poisson-Lognormal iteration sampling. 195 S2 citations, 37 influential. Downstream crawl 2026-04-23: 179 arxiv-resolved citations, 22 already in vault (Ouro, Parcae, Mechanistic Analysis, From Growing to Looping, Are LRMs Interpretable, HRPO, LEPO, CODI, COCONUT, HRM, SIM-CoT, LaDiR, Soft Tokens Hard Truths, MARCOS, Parallel TTS, Think-at-Hard, Step-Decomposed Influence, Dynamics of Latent CoT, PonderLM-3, Weak vs Strong Supervision, Soft Thinking Mechanism, CoT2), 15 full-ingested after relevance filter (recurrent/looped/TTC/adaptive-depth/interpretability/scaling-theory)."
+
+  # === Crawled from Scaling Up TTC downstream 2026-04-23 ===
+  # Seed: Scaling Up TTC / Huginn (2502.05171) — 195 S2 citations, 179 arxiv.
+  # Pre-filter: relevance score = keyword weight on (recurrent|looped|latent-reasoning|TTC|
+  # halting|adaptive-depth|fixed-point|interpretability|scaling-law|curriculum). 15 selected
+  # from top-25 after dedupe against 49 existing + parallel HRPO/SIM-CoT/SST crawls.
+
+  - arxiv: "2511.07384"
+    arxiv_resolved_at: 2026-04-23
+    title: "Retrofitted Recurrence — Depth-Recurrent Conversion of Pretrained LMs"
+    projects: [spar-latent-reasoning, branch-a, branch-b, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Retrofitted Recurrence]]. Authors: McLeish, Li, Kirchenbauer, Kalra, Bartoldson, Kailkhura, Schwarzschild, Geiping, Goldstein, Goldblum (UMD + NYU + LLNL + UNC + ELLIS-MPI + Columbia). Code: github.com/mcleish7/retrofitting-recurrence. HF collection. Curriculum of recurrences + Muon optimizer + k=8 truncated BPTT. Converts TinyLlama/OLMo-2-1B/Llama-3.2-1B → depth-recurrent at matched FLOPs."
+
+  - arxiv: "2510.07358"
+    arxiv_resolved_at: 2026-04-23
+    title: "Encode-Think-Decode (ETD) — Recursive Latent Thoughts via Middle-Layer Iteration"
+    projects: [spar-latent-reasoning, branch-a, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Encode Think Decode]]. Authors: Koishekenov, Lipani, Cancedda (FAIR Meta / UCL). E/T/D partition; iterate only middle-layer 'thinking block' T during mid-training. +28.4% on 17 reasoning benchmarks. No architecture/param/data changes."
+
+  - arxiv: "2603.01914"
+    arxiv_resolved_at: 2026-04-23
+    title: "AdaPonderLM — Gated Pondering with Token-Wise Adaptive Depth"
+    projects: [spar-latent-reasoning, branch-a, branch-b, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[AdaPonderLM]]. Authors: Song, Li, Wang, Zeng, Song, Wang, Xu, He, Lin (SJTU LUMIA Lab). Iteration-specific MLP gates + monotonic halting mask + KV reuse for halted tokens. Pythia 70M-2.8B; -10% inference compute at matched PPL."
+
+  - arxiv: "2507.02199"
+    arxiv_resolved_at: 2026-04-23
+    title: "Decoding the Depth-Recurrent Transformer — Is Huginn Doing Latent CoT?"
+    projects: [spar-latent-reasoning, branch-c, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Decoding Depth-Recurrent Transformer]]. Authors: Lu, Yang, Lee, Li, Liu (Brown / Harvard). Probes Huginn-3.5B on arithmetic with Logit Lens + novel Coda Lens. Finds sharp cross-block discontinuities and limited evidence of interpretable latent CoT. Marginal arithmetic gains from deeper recurrence."
+
+  - arxiv: "2509.26314"
+    arxiv_resolved_at: 2026-04-23
+    title: "Latent Thinking Optimization — Reward Signals in Huginn's Latent Thoughts"
+    projects: [spar-latent-reasoning, branch-d, branch-a, branch-c]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Latent Thinking Optimization]]. Authors: Du, Dong, Ning (Ohio State CSE + BMI + TDAI). Process-reward probe on Huginn latent trajectories; parallel inference-time rejection sampling (LTO) with negligible overhead. Positive interpretability result — process reward discernible even when next-token probes fail."
+
+  - arxiv: "2602.14759"
+    arxiv_resolved_at: 2026-04-23
+    title: "Inner Loop Inference — Train-Free Block Looping on Pretrained Transformers"
+    projects: [spar-latent-reasoning, branch-a, branch-b, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Inner Loop Inference]]. Authors: Lys, Gripon, Pasdeloup, Marmoret, Mauch, Cardinaux, Boukli Hacene. Residual-decomposition interpretation: looping a block = iterative refinement in shared residual space. Zero training. Unlocks latent capability in standard Transformers."
+
+  - arxiv: "2604.15259"
+    arxiv_resolved_at: 2026-04-23
+    title: "Stability and Generalization in Looped Transformers"
+    projects: [spar-latent-reasoning, branch-b, branch-a, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Stability and Generalization in Looped Transformers]]. Author: Asher Labovich. Theoretical framework — fixed-point-based analysis along (reachability, input-dependence, geometry). Theorem: no-recall loops have countable fixed points and cannot achieve strong input-dependence. HTML v1 not yet available at crawl time (paper posted 2026-04-16) — source page marked confidence:medium; re-ingest scheduled on next autoreview."
+
+  - arxiv: "2604.07822"
+    arxiv_resolved_at: 2026-04-23
+    title: "Loop, Think, Generalize — Implicit Reasoning in Recurrent-Depth Transformers"
+    projects: [spar-latent-reasoning, branch-a, branch-d, branch-c]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Loop Think Generalize]]. Authors: Kohli, Parthasarathy, Sun, Yao (Ohio State). Empirical probes of Huginn/Ouro on systematic generalization + depth extrapolation. Recurrent-depth meaningfully beats non-recurrent baselines on implicit compositional reasoning."
+
+  - arxiv: "2509.23314"
+    arxiv_resolved_at: 2026-04-23
+    title: "Two-Scale Latent Dynamics for Recurrent-Depth Transformers"
+    projects: [spar-latent-reasoning, branch-a, branch-b, branch-c]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Two-Scale Latent Dynamics]]. Authors: Pappone, Crisostomi, Rodolà (Sapienza / GLADIA). Two-scale geometry (within-block refinement + across-block drift); shrinking + orthogonalizing loop steps signature fixed-point convergence. Acceleration-based early-exit strictly dominates Huginn's KL exit on latency-quality Pareto."
+
+  - arxiv: "2507.07996"
+    arxiv_resolved_at: 2026-04-23
+    title: "Skip a Layer or Loop it? (CoLa) — Test-Time Depth Adaptation of Pretrained LLMs"
+    projects: [spar-latent-reasoning, branch-a, branch-b, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Skip a Layer or Loop it]]. Authors: Li, Li, Zhou (UMD). Per-sample MCTS over skip/loop layer sequences on pretrained LLMs. >75% of samples benefit from non-static architecture. Train-free — capability for variable-depth reasoning is partially latent in pretrained models."
+
+  - arxiv: "2602.11451"
+    arxiv_resolved_at: 2026-04-23
+    title: "LoopFormer — Elastic-Depth Looped Transformers via Shortcut Modulation"
+    projects: [spar-latent-reasoning, branch-a, branch-b, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[LoopFormer]]. Authors: Jeddi, Ciccone, Taati (U. Toronto / Vector Institute / UHN). Iteration-conditional shortcut modulation enables elastic-depth training from a single run. Architectural alternative to Huginn's Poisson-Lognormal iteration sampling."
+
+  - arxiv: "2601.21582"
+    arxiv_resolved_at: 2026-04-23
+    title: "Depth-Recurrent Attention Mixtures (Dreamer)"
+    projects: [spar-latent-reasoning, branch-a, branch-b, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Depth-Recurrent Attention Mixtures]]. Authors: Knupp, Metzen, Bohn, Groh, Kersting. Critiques prior depth-recurrent work for missing matched baselines and ignoring hidden-size bottleneck. Dreamer adds depth attention + expert attention to the shared block."
+
+  - arxiv: "2604.18839"
+    arxiv_resolved_at: 2026-04-23
+    title: "One Step Forward and K Steps Back — Denoising Recursion Models"
+    projects: [spar-latent-reasoning, branch-d, branch-a]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[One Step Forward K Steps Back]]. Authors: Cameron, Wang, Ivanov, Bhattacharyya, Chételat, Zhang (Huawei Noah). Bridges diffusion + looped transformers via trajectory-level noise-reversal supervision. Third anti-collapse mechanism (trajectory anchor) alongside CPF (vocab) and SIM-CoT (aux decoder)."
+
+  - arxiv: "2507.06203"
+    arxiv_resolved_at: 2026-04-23
+    title: "A Survey on Latent Reasoning"
+    projects: [spar-latent-reasoning]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Survey on Latent Reasoning]]. 34 authors; lead Rui-Jie Zhu (same lineage as Ouro), including Jason Eshraghian (Mila). Taxonomy: vertical (depth) vs horizontal (sequential) recurrence + compression/internalization fine-tuning. Canonical umbrella framing."
+
+  - arxiv: "2507.10524"
+    arxiv_resolved_at: 2026-04-23
+    title: "Mixture-of-Recursions (MoR) — Token-Level Adaptive Recursion Depth"
+    projects: [spar-latent-reasoning, branch-a, branch-b, branch-d]
+    crawl_depth: 1
+    status: ingested
+    ingested_at: 2026-04-23
+    discovered_via: "2502.05171"
+    notes: "Source page: [[Mixture of Recursions]]. Authors: Bae, Kim, Bayat, Kim, Ha, Schuster, Fisch, Harutyunyan, Ji, Courville, Yun (KAIST AI / Mila / Google DeepMind). Token-level routers + recursion-wise KV caching; Pareto front 135M-1.7B. Most-influential non-Huginn recursive-transformer paper (8 influential citations in 4 months)."

@@ -1,0 +1,19 @@
+# Obsidian per-machine UI state (not portable)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+
+# Raw ingest staging — large, regeneratable, often source-licensed
+.raw/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor swap / backup
+*.swp
+*.swo
+*~
+
+# Trash
+.trash/
