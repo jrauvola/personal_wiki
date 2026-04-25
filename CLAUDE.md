@@ -1,12 +1,65 @@
-# Latent Reasoning Research Wiki — Claude Instructions
+# Personal Research Wiki — Claude Instructions
 
 **Vault path:** `/Users/jrauvola/Desktop/wiki/`
 **`.raw/` path:** `/Users/jrauvola/Desktop/wiki/.raw/` (gitignored; staging area for sources awaiting ingest)
 **Git remote:** `jrauvola/personal_wiki` (private GitHub)
-**Project:** SPAR fellowship — Latent Reasoning Interpretability
-**Purpose:** Persistent, compounding knowledge base of latent-reasoning literature, with tiered relevance against active investigation branches.
+**Purpose:** Persistent, compounding knowledge base across multiple research projects, with tiered relevance per project.
 
 This file extends the `claude-obsidian` plugin's default behavior for this vault. The plugin's skills must honor these customizations.
+
+---
+
+## Vault layout
+
+```
+/Users/jrauvola/Desktop/wiki/
+├── CLAUDE.md                          # this file (vault-wide rules)
+├── WORKSPACE.md                       # always-loaded project index
+├── ACTIVE_PROJECT                     # one-line file: default project slug
+│
+├── projects/                          # PER-PROJECT workspace surfaces
+│   └── <slug>/
+│       ├── hot.md                     # recent context cache
+│       ├── index.md                   # page index
+│       ├── log.md                     # ingest + change log
+│       ├── overview.md                # project overview
+│       ├── experiments.md             # experiment tracker root
+│       └── experiments/               # per-experiment notes
+│
+├── concepts/                          # SHARED knowledge surfaces (cross-project)
+├── entities/                          # — pages declare per-project relevance
+├── sources/                           #   via `projects:` frontmatter
+├── ideas/
+├── questions/
+├── comparisons/
+├── canvas/
+│
+├── meta/
+│   ├── projects/
+│   │   ├── REGISTRY.md                # project list + primary/secondary interests
+│   │   └── <slug>.md                  # auto-generated dashboard per project
+│   ├── seeds.yaml                     # paper-crawl input
+│   ├── autoreview/changelog.md        # append-only sweep log
+│   └── FRONTMATTER-SCHEMA.md
+│
+└── .raw/                              # gitignored ingest staging
+```
+
+**The split rule:**
+- **Workspace surfaces** (hot, index, log, overview, experiments) live under `projects/<slug>/`. They swap when the active project swaps.
+- **Knowledge surfaces** (concepts, entities, sources, ideas, questions, comparisons, canvas) live at vault root. A page can serve any number of projects via its `projects:` frontmatter.
+
+## Active-project resolution
+
+Skills determine which project's surfaces to load with this resolution order:
+
+1. **`.wiki-project` file in the current working directory** — single line containing a project slug. Codebase-scoped override.
+2. **`ACTIVE_PROJECT` file at vault root** — single line. Vault-wide default.
+3. **Fallback** — warn and load no project-scoped surfaces.
+
+Skills should also accept a `--project=<slug>` CLI override that wins over both files.
+
+The redirect stubs at vault root (`hot.md`, `index.md`, `log.md`, `overview.md`, `experiments.md`) are temporary safety nets pointing at `projects/spar-latent-reasoning/`. Once the plugin reliably resolves via the rules above, the stubs can be deleted.
 
 ---
 
@@ -74,53 +127,30 @@ This vault uses a fully-autonomous review model. See [[meta/projects/REGISTRY]] 
 
 ### 5. Execution artifacts stay out of the wiki
 
-These live in `research_findings/` (at project root, parallel to `wiki/`) and MUST NOT be copied into the wiki (they are execution state, not knowledge):
+Project-specific execution state (training logs, monitor output, scratchpads) lives in the project's codebase, not the vault. For `spar-latent-reasoning` the canonical location is `/Users/jrauvola/Desktop/Latent_Reasoning_Project/research_findings/`. Wiki pages MAY cross-link to such artifacts via stubs, but never copy content across.
 
-- `../research_findings/experiment_scratchpad.md`
-- `../research_findings/monitor_logs/`
-- `../research_findings/dgrad_probe/`
-- `../research_findings/SESSION_STATE_*.md`
-- `../research_findings/checkpoint_*.md`
-- `../research_findings/phase0_*/`
-
-Wiki source pages MAY cross-link to them via `[[.raw/experiments/<name>]]` stubs, but never copy content across.
-
----
-
-## Vault structure (non-standard additions)
-
-Extensions beyond the plugin's default vault layout:
-
-```
-meta/
-├── projects/
-│   ├── REGISTRY.md              # project list + primary/secondary interests
-│   ├── branch-a.md              # auto-generated dashboard (wiki-autoreview)
-│   ├── branch-b.md
-│   ├── branch-c.md
-│   ├── branch-d.md
-│   └── spar-latent-reasoning.md
-├── seeds.yaml                   # paper-crawl input (arXiv IDs → projects)
-├── autoreview/
-│   └── changelog.md             # append-only sweep log
-└── FRONTMATTER-SCHEMA.md        # authoritative schema reference
-```
+When a new project is added, document its execution-artifacts location in its `projects/<slug>/overview.md`, not here.
 
 ---
 
 ## Cross-project reference
 
-Other Claude Code projects may read this wiki as context. Recommended reading order:
+Other Claude Code sessions may read this wiki for context. Recommended reading order:
 
-1. `wiki/hot.md` (500-word recent context)
-2. `wiki/index.md`
-3. `wiki/meta/projects/REGISTRY.md` (what we're actually working on)
-4. Individual source/concept pages as needed
+1. [[WORKSPACE]] (project index)
+2. `projects/<active-slug>/hot.md` (recent context cache)
+3. `projects/<active-slug>/index.md`
+4. [[meta/projects/REGISTRY]] (what every project actually cares about)
+5. Individual source/concept pages as needed
+
+The active slug comes from `.wiki-project` (cwd) → `ACTIVE_PROJECT` (vault root).
 
 ---
 
-## Source of truth
+## Source of truth (spar-latent-reasoning project)
 
-- Spec: `../docs/superpowers/specs/2026-04-22-paper-crawl-pipeline-design.md`
-- Skill drafts: `../docs/paper-crawl/skills/`
-- Patches (for reference — superseded by this CLAUDE.md + meta/FRONTMATTER-SCHEMA.md): `../docs/paper-crawl/patches/`
+These references are project-specific and live in the latent reasoning codebase, not here:
+
+- Spec: `/Users/jrauvola/Desktop/Latent_Reasoning_Project/docs/superpowers/specs/2026-04-22-paper-crawl-pipeline-design.md`
+- Skill drafts: `/Users/jrauvola/Desktop/Latent_Reasoning_Project/docs/paper-crawl/skills/`
+- Patches: `/Users/jrauvola/Desktop/Latent_Reasoning_Project/docs/paper-crawl/patches/`
