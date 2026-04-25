@@ -2,7 +2,7 @@
 
 **Vault path:** `/Users/jrauvola/Desktop/wiki/`
 **`.raw/` path:** `/Users/jrauvola/Desktop/wiki/.raw/` (gitignored; staging area for sources awaiting ingest)
-**Git remote:** `jrauvola/wiki` (private GitHub)
+**Git remote:** `jrauvola/personal_wiki` (private GitHub)
 **Project:** SPAR fellowship — Latent Reasoning Interpretability
 **Purpose:** Persistent, compounding knowledge base of latent-reasoning literature, with tiered relevance against active investigation branches.
 

@@ -106,7 +106,7 @@ $$\mathcal{L}_\text{total} = \mathcal{L}_\text{CE}(y) + \lambda_1 \mathcal{L}_\t
 
 - Vault path: `/Users/jrauvola/Desktop/wiki/`
 - `.raw/` path: `/Users/jrauvola/Desktop/wiki/.raw/` (gitignored)
-- Git remote: `jrauvola/wiki` (private GitHub)
+- Git remote: `jrauvola/personal_wiki` (private GitHub)
 - Custom schema adds `projects:` tiered relevance and `paper` source_type.
 - Project registry seeded with Branches A/B/C/D + spar-latent-reasoning umbrella.
 - Autoreview discipline: LLM full-ingests every paper, assigns tiers, re-grades on schedule; human attention only for flagged contradictions.
