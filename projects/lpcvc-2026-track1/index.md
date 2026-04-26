@@ -36,6 +36,10 @@ To find pages tagged with this project's slug, query the vault root:
 - [[sources/CLIC - Compositional Awareness in CLIP]] — Tübingen, May 2025
 - [[sources/CLIP-LoRA - Low-Rank Few-Shot Adaptation]] — CVPRW 2024
 - [[sources/Qualcomm AI Hub Quantization Documentation]] — operational reference
+- [[sources/MobileCLIP2 Architecture and FastViT-MCi Family]] — Apple, TMLR 2025
+- [[sources/AIMET to QAI Hub Workflow]] — operational reference (amended 2026-04-25 with lite_mp)
+- [[sources/LPCVC 2025 Cross-Track Lessons]] — secondary writeup of 2025 winners
+- [[sources/LPCV 2025 Evaluation Paper]] — primary organizer paper (arXiv 2604.19054)
 
 **Concepts:**
 - [[concepts/Activation Function Latency-Accuracy Tradeoff on Mobile NPU]]

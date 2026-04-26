@@ -15,7 +15,7 @@ projects:
 key_claims:
   - "QAI Hub built-in quantization is now itself an AIMET-ONNX backend (AIMET-ONNX 2.21.0). The 'gap' between Hub and AIMET is which features Hub exposes via options, not different engines."
   - "QAI Hub's submit_quantize_job supports INT8 weights; activations INT8 OR INT16 on QNN/ONNX runtimes; TFLite is INT8-only."
-  - "Mixed precision (different ops at different precision in same network) is NOT supported by QAI Hub built-in. Either whole graph A8 or whole graph A16."
+  - "AMENDED 2026-04-25 (confidence: medium until team verifies on live Hub job): partial mixed precision IS supported via the --lite_mp flag, e.g. `--lite_mp percentage=10;override_qtype=int16`. The earlier claim 'mixed precision is NOT supported' was wrong — that statement applies to fully arbitrary per-op precision; lite_mp allows promoting a percentage of layers to a higher precision (typically int16) while leaving the rest int8. AIMET still wins for fully-arbitrary per-op precision via QuantizationSimModel + AMP sweep."
   - "AIMET native supports per-op precision via QuantizationSimModel and auto_mixed_precision (AMP) sweep — finds Pareto curve of bit allocations."
   - "AIMET → QAI Hub workflow: AIMET produces .aimet directory ({model.onnx, model.encodings, model.data?}) → upload_model → submit_compile_job → QNN context binary."
   - "AdaRound is the highest-impact AIMET feature when naive INT8 collapses (e.g. ADAS detector 49.85 → 81.21 mAP)."
@@ -37,14 +37,17 @@ Operational reference for the team's open question: AIMET vs QAI Hub built-in IN
 
 ### Use QAI Hub built-in (default path)
 - Single precision globally (all-INT8 or all-INT8/INT16-activations)
+- **Partial mixed precision via `--lite_mp` flag** (e.g. `--lite_mp percentage=10;override_qtype=int16` — promotes 10% of layers to int16 while leaving the rest int8). This is the right first lever when pure W8A8 hurts attention-block accuracy.
 - Per-channel weights enabled
 - Standard calibration (min/max, percentile)
 - 500-1000 representative calibration samples
 
 This covers ~80% of CLIP-style models with R@10 retention within 1-2%.
 
+> [!gap] The exact `--lite_mp` semantics (which layers get promoted? deterministic by sensitivity? random by percentage?) need verification on a live Hub job before committing to the recipe.
+
 ### Reach for native AIMET when:
-- You need **mixed precision** (e.g., INT8 elsewhere, INT16 only on softmax/LayerNorm/output projection in attention block)
+- You need **fully arbitrary per-op mixed precision** (Hub's `--lite_mp` only promotes a *percentage* of layers; AIMET's QuantizationSimModel lets you specify exact ops). Use this when targeting *specific* sensitive ops like softmax + LayerNorm + output projection in attention.
 - Naive Hub PTQ has collapsed (R@10 drop > 2%) and you want **AdaRound** to fix layer-by-layer rounding error
 - You want **QuantAnalyzer per-layer SQNR sweep** to identify which ops are the hotspots before deciding precision allocation
 - You want to use **MX formats** (MXINT8 etc.) — currently AIMET-only, but check if the target Hexagon NPU on XR2 Gen 2 actually supports MX before investing

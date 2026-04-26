@@ -39,8 +39,14 @@ updated: 2026-04-25
 
 ### 🔥 W8A16 is the standard production setting for transformer attention on Hexagon
 - Pure W8A8 typically fails on attention activation outliers (heavy tails).
-- QAI Hub supports A16W8 globally; mixed precision (A16 only on softmax) requires AIMET.
+- QAI Hub supports A16W8 globally. **AMENDED 2026-04-25:** Hub *also* supports partial mixed precision via `--lite_mp percentage=N;override_qtype=int16` (promotes a percentage of layers to int16). AIMET is only needed for *fully arbitrary per-op* precision (specific ops like softmax + LayerNorm). The earlier "mixed precision unsupported" claim was wrong — corrected in [[sources/AIMET to QAI Hub Workflow]] (confidence: medium until team verifies on live Hub job).
 - See [[sources/AIMET to QAI Hub Workflow]].
+
+### 🆕 LPCV 2025 organizer-authored evaluation paper (arXiv 2604.19054)
+- Peer-reviewed paper by LPCVC organizers (first author Yung-Hsiang Lu, LPCVC founder) analyzing what won in 2025 under the same QAI Hub workflow.
+- Surfaced via Semantic Scholar; WebSearch missed this in 4 prior autoresearch rounds.
+- Single most-direct prior-art reference for our submission. Read before final submit.
+- See [[sources/LPCV 2025 Evaluation Paper]].
 
 ### 🔥 Matryoshka loss = single training run gives entire accuracy/latency Pareto
 - One training pass with `matryoshka_dims=[64,128,256,384,512,768]` produces a model where you can pick the dim at submission. <0.019 nDCG gap between 256-d and 512-d on CLIP retrieval.
