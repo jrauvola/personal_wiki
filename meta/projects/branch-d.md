@@ -2,9 +2,9 @@
 type: meta
 title: "Branch D — LT-Tuning CPF on CODI"
 project_slug: branch-d
-updated: 2026-04-24
-status: active
-driver: "Implement Context-Prediction-Fusion from LT-Tuning on top of our CODI base to address 8B feature collapse. Highest-value scientific branch if Qwen3 diverges with universal pathology per 2026-04-17 spec § 5.2."
+updated: 2026-04-25
+status: case-c-pivot
+driver: "ORIGINAL: Implement Context-Prediction-Fusion from LT-Tuning on top of our CODI base. POST-CASE-C (2026-04-24): final-layer CPF FAILED at 4B; mid-layer CPF (W1.2 Phase 2) is the live remaining path. Wave-3 COCONUT becomes primary."
 spec: "[[2026-04-17 Latent Reasoning Investigation Design]]"
 related:
   - "[[Latent Thoughts Tuning]]"
@@ -13,6 +13,18 @@ related:
 ---
 
 # Branch D — Reading List
+
+## ⚠️ Case C verdict 2026-04-24 (post-LT-Tuning eval)
+
+**Final-layer CPF FAILED at Qwen3-4B.** LT-Tuning training completed (train_loss=0.539, checkpoint pushed to `jrauvola/qwen3-4b-codi-lt-tuning-bf16-v2detach`) but F-battery eval gave Case C: GSM8k 1.67% (vs V2 baseline 12.06%); template SHIFTED from V2's `The/0/.` attractor to `isha:` / `) is:` attractor; loop rate 99% (vs V2 95%). See `research_findings/lt_tuning_phase0_case_decision.md` for full numbers + verdict.
+
+**Critical: do NOT overgeneralize "CPF failed."** This Case C is for FINAL-LAYER CPF specifically. Branch 1 layer-asymmetric probe (`wiki/projects/spar-latent-reasoning/experiments/branch-1-layer-asymmetric-probe.md`) **CONFIRMED** mid-stack (L28-L30) preserves per-example variation while final layers collapse it. **Mid-layer CPF (W1.2 Phase 2) remains live and is the highest-priority remaining CODI extension.**
+
+**Branch D status post-Case-C:**
+- ⏸️ Final-layer CPF (LT-Tuning recipe as-published) — RETIRED.
+- 🟢 Mid-layer CPF (W1.2 Phase 2 training) — LIVE; gated on per-layer dump infra (Branch 1 already produced).
+- 🟢 W2.4b SIM-CoT Phase 2a (different mechanism, not invalidated by Case C) — queued.
+- 🚀 W3.1 COCONUT — promoted to primary per spec §4.5.
 
 ## Empirical update 2026-04-23
 

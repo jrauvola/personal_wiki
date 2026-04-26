@@ -2,11 +2,21 @@
 type: meta
 title: "Branch B — Minimum-Sufficient Detach Ablation"
 project_slug: branch-b
-updated: 2026-04-24
-status: active
-driver: "Ablate minimum-sufficient detach variant across V2/V3/V4 + fp32 axes. Scale simplest winner to 9B."
+updated: 2026-04-25
+status: case-c-pivot
+driver: "ORIGINAL: Ablate minimum-sufficient detach variant across V2/V3/V4 + fp32 axes. POST-CASE-C (2026-04-24): SIM-CoT Phase 2a is the live training-signal-fix candidate; LT-Tuning failed at final-layer CPF; mid-layer CPF (W1.2 Phase 2) is the parallel live CODI extension."
 spec: "[[2026-04-17 Latent Reasoning Investigation Design]] § 6.2"
 ---
+
+## ⚠️ Case C update 2026-04-24
+
+**LT-Tuning final-layer CPF failed** (Case C verdict — see `research_findings/lt_tuning_phase0_case_decision.md`). SIM-CoT Phase 2a is a DIFFERENT mechanism (auxiliary decoder vs CPF fusion) and is NOT invalidated by Case C. Phase 2a smoke-validated 2026-04-24 00:27 UTC at 22.5 GB on shared-`lm_head` config. Full training run is queued. Track-B COCONUT (W3.1) is the parallel primary track per spec §4.5.
+
+**Branch B status post-Case-C:**
+- 🟢 W2.4b SIM-CoT Phase 2a Qwen3-4B (auxiliary decoder, not CPF) — LIVE, queued.
+- 🟢 W1.2 Phase 2 mid-layer CPF — LIVE (Branch 1 CONFIRM enables this).
+- 🚀 W3.1 COCONUT — primary parallel track per spec §4.5.
+- ⏸️ Generic final-layer CPF (LT-Tuning recipe) — RETIRED post-Case-C.
 
 # Branch B — Reading List
 

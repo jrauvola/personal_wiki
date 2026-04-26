@@ -19,39 +19,39 @@ For workflow conventions: see memory `feedback_wiki_experiment_tracking.md`. Aut
 
 ## Phase 1 — V2 / V2' training and characterization
 
-🟢 [[experiments/phase-1-v2-bf16-training]] — V2 bf16 step-boundary detach (foundational)
-   🔴 [[experiments/f1-unique-correct]] — CODI adds no unique capability
-   🟢 [[experiments/f2-loop-content]] — loops are context-free
-   🔴 [[experiments/f3-trace-variance]] — 7/8 latent positions are template
-       ⏸️ [[experiments/f3-layer-wise-step3]] — deferred (needs GPU re-dump)
-       🟢 [[experiments/branch-1-layer-asymmetric-probe]] — CONFIRM mid-stack content (L28-30)
-       🟡 [[experiments/branch-2-quora-faithfulness-probe]] — data-starved (needs raw HS dump)
-   🟡 [[experiments/f4-latent-kv-ablate]] — 25-29% drop, loops persist
-       🟢 [[experiments/f4-per-example-diagnosis]] — real floor 8.5%
-   🔴 [[experiments/f5-cross-example-kv-swap]] — swap is null
-       🟢 [[experiments/f5-proxy-cosine]] — pair-cos 0.78, 63 PCs
-   🟢 [[experiments/f6-kv-noise-sweep]] — σ=0.5 cliff
-   🟢 [[experiments/track-a-first-sentence-trim]] — flat curve, rise is artifact
-   🟢 [[experiments/kv-pca-analysis]]
-   🟢 [[experiments/kv-distance-bf16-vs-fp32]]
-   🟢 [[experiments/prediction-degeneracy-analysis]]
-   🟢 [[experiments/lightweight-experiments-e1-e4]]
+🟢 [[phase-1-v2-bf16-training]] — V2 bf16 step-boundary detach (foundational)
+   🔴 [[f1-unique-correct]] — CODI adds no unique capability
+   🟢 [[f2-loop-content]] — loops are context-free
+   🔴 [[f3-trace-variance]] — 7/8 latent positions are template
+       ⏸️ [[f3-layer-wise-step3]] — deferred (needs GPU re-dump)
+       🟢 [[branch-1-layer-asymmetric-probe]] — CONFIRM mid-stack content (L28-30)
+       🟡 [[branch-2-quora-faithfulness-probe]] — data-starved (needs raw HS dump)
+   🟡 [[f4-latent-kv-ablate]] — 25-29% drop, loops persist
+       🟢 [[f4-per-example-diagnosis]] — real floor 8.5%
+   🔴 [[f5-cross-example-kv-swap]] — swap is null
+       🟢 [[f5-proxy-cosine]] — pair-cos 0.78, 63 PCs
+   🟢 [[f6-kv-noise-sweep]] — σ=0.5 cliff
+   🟢 [[track-a-first-sentence-trim]] — flat curve, rise is artifact
+   🟢 [[kv-pca-analysis]]
+   🟢 [[kv-distance-bf16-vs-fp32]]
+   🟢 [[prediction-degeneracy-analysis]]
+   🟢 [[lightweight-experiments-e1-e4]]
 
-🟡 [[experiments/phase-1-v2-fp32-comparator]] — cross-precision divergence unexplained
+🟡 [[phase-1-v2-fp32-comparator]] — cross-precision divergence unexplained
 
 ## Phase 2 — Interventions
 
-🔴 [[experiments/phase-2b-lt-tuning-cpf-training]] — training success, eval fails Case C
-   🔴 [[experiments/lt-tuning-f-battery-eval]] — Phase 1 + F3 + F1 ran; F4/F5/F6 crashed; Case C
+🔴 [[phase-2b-lt-tuning-cpf-training]] — training success, eval fails Case C
+   🔴 [[lt-tuning-f-battery-eval]] — Phase 1 + F3 + F1 ran; F4/F5/F6 crashed; Case C
 
-🟢 [[experiments/phase-2a-sim-cot-shared-head-smoke]] — 22.5 GB footprint validated
-   ⏸️ [[experiments/phase-2a-sim-cot-full-training]] — gated on Case C escalation
+🟢 [[phase-2a-sim-cot-shared-head-smoke]] — 22.5 GB footprint validated
+   ⏸️ [[phase-2a-sim-cot-full-training]] — gated on Case C escalation
 
 ## Infrastructure / tooling
 
-🟢 [[experiments/peft-modules-to-save-resize-fix]]
-🟢 [[experiments/safe-decode-qwen3-reserved-vocab-patch]]
-🟢 [[experiments/eval-harness-pre-wire-lt-tuning]]
+🟢 [[peft-modules-to-save-resize-fix]]
+🟢 [[safe-decode-qwen3-reserved-vocab-patch]]
+🟢 [[eval-harness-pre-wire-lt-tuning]]
 
 ## Synthesis
 

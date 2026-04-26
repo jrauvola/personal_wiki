@@ -16,7 +16,7 @@ aliases:
   - "Info-Theoretic Regularizer Menu"
 related:
   - "[[Variational Information Bottleneck]]"
-  - "[[Conditional Entropy Bottleneck]]"
+  - "[[Conditional Entropy Bottleneck (concept)]]"
   - "[[Whitening-Based Anti-Collapse]]"
   - "[[Feature Collapse]]"
   - "[[Routing vs Reasoning]]"
@@ -94,7 +94,7 @@ $$
 
 **Risk:** requires a working $b(z|y)$ — our $e_\text{pred}$ is close but has limitations.
 
-See: [[Conditional Entropy Bottleneck]].
+See: [[Conditional Entropy Bottleneck (concept)]].
 
 ### 3. HSIC Bottleneck
 

@@ -26,7 +26,7 @@ key_claims:
   - "Invariance and disentanglement are bounded above and below by information in the weights; implicitly optimised during training."
 related:
   - "[[Deep Variational Information Bottleneck]]"
-  - "[[Conditional Entropy Bottleneck]]"
+  - "[[Conditional Entropy Bottleneck (concept)]]"
   - "[[Variational Information Bottleneck]]"
 sources:
   - "https://jmlr.org/papers/v19/17-646.html"

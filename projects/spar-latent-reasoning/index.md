@@ -114,7 +114,7 @@ Top-level research questions answered by consolidated autoresearch sweeps (each 
 - [[Routing vs Reasoning]] — F-battery-grounded failure framing
 - [[Loop-Mode Emission]] — decoder loop-mode architectural axis
 - [[Exploration-Execution Trade-off]] — per-step exploration/exploitation
-- [[Conditional Entropy Bottleneck]] (concept page — aliases CEB, Fischer Bottleneck)
+- [[Conditional Entropy Bottleneck (concept)]] (aliases CEB, Fischer Bottleneck)
 
 ### Stability theory (new — 2026-04-24)
 
@@ -184,3 +184,15 @@ See [[ideas/INDEX|Ideas Index]] for the full catalog.
 - **Raw papers:** ~91 (some duplicates to clean in next wiki-lint pass).
 - **Autoreview sweeps:** #1 on 2026-04-23 (49 sources), #2 on 2026-04-23 (86 sources). Next sweep due after autoresearch batch settles.
 - **Autoresearch batches:** 1st batch 2026-04-24 — three parallel agents (stability / info / disentanglement); consolidation recorded at [[meta/autoreview/2026-04-24-autoresearch-consolidation]].
+
+## Phase 0 verdict (2026-04-24, post-Case-C)
+
+- **LT-Tuning Phase 0 F-battery: failed.** CPF training collapses on small-model regime; the Case C verdict consolidates the diagnosis. Canonical decision doc: `Latent_Reasoning_Project/research_findings/lt_tuning_phase0_case_decision.md`.
+- **Mid-layer CPF (W1.2): still live.** Layer-asymmetric probe + middle-layer CPF kept on the active branch as the most concrete extant intervention.
+- **Branch 1 CONFIRM: mid-stack content is preserved** — middle layers carry decodable content even when final-layer logit lens collapses. This is now the load-bearing prior for the pivoted research stack.
+- **Primary lineage going forward: COCONUT** as the curriculum/architecture base, with mid-layer CPF as the feasible LT-Tuning carryover and Branch B/D dashboards re-scoped accordingly. See [[meta/projects/branch-b]] and [[meta/projects/branch-d]] for the post-Case-C dashboards and [[overview]] for the rolled-up framing.
+
+## Vault hygiene (2026-04-25)
+
+- Phase 0 wiki cleanup landed: stale `wiki/experiments/` paths corrected in 4 plans files; 25 broken `[[experiments/X]]` wikilinks fixed in `experiments.md`; CEB concept page renamed to `Conditional Entropy Bottleneck (concept).md` to disambiguate from source paper; 3 duplicate raw papers removed (2508.03440-soft-thinking-single-threaded, 2510.15522-latent-sft-superposition, 2604.04902-are-lrms-interpretable); CEB concept-vs-paper references audited across 8 files.
+- See [[log#[2026-04-25] cleanup | Phase 0 wiki cleanup landed]].

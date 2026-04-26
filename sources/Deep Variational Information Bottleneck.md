@@ -28,7 +28,7 @@ key_claims:
   - "A Gaussian stochastic encoder p(z|x) = N(z | f_μ(x), f_Σ(x)) with reparameterisation ε ~ N(0,I) gives an unbiased Monte-Carlo estimate of the VIB gradient."
   - "β controls the compression/relevance tradeoff; VAE is the unsupervised special case at β=1 with q(y|z) a reconstruction of x."
 related:
-  - "[[Conditional Entropy Bottleneck]]"
+  - "[[Conditional Entropy Bottleneck (concept)]]"
   - "[[Variational Information Bottleneck]]"
   - "[[Feature Collapse]]"
   - "[[Routing vs Reasoning]]"

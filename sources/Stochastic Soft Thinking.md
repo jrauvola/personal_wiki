@@ -43,7 +43,7 @@ related:
   - "[[LaDi-RL]]"
   - "[[ThinkRouter]]"
 sources:
-  - "[[.raw/papers/2508.03440-soft-thinking-single-threaded]]"
+  - "[[.raw/papers/2508.03440-soft-thinking-mechanism]]"
 projects:
   - slug: "branch-d"
     relevance: primary
@@ -115,4 +115,4 @@ Replace deterministic soft-token mixing with Gumbel-Softmax sampling. Each step 
 
 - **Paper:** [arXiv:2508.03440](https://arxiv.org/abs/2508.03440)
 - **Code:** none released at crawl time.
-- **Raw source:** [[.raw/papers/2508.03440-soft-thinking-single-threaded]]
+- **Raw source:** [[.raw/papers/2508.03440-soft-thinking-mechanism]]

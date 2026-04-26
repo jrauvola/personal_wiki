@@ -28,7 +28,7 @@ key_claims:
   - "At α+λ−1 = 0 reduces to β-VAE; otherwise allows disentangling posterior regularization from aggregated-posterior regularization."
 related:
   - "[[Deep Variational Information Bottleneck]]"
-  - "[[Conditional Entropy Bottleneck]]"
+  - "[[Conditional Entropy Bottleneck (concept)]]"
   - "[[Variational Information Bottleneck]]"
 sources:
   - "https://ar5iv.labs.arxiv.org/html/1706.02262"

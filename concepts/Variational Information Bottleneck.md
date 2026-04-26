@@ -16,7 +16,7 @@ aliases:
   - "Information Bottleneck (variational)"
 related:
   - "[[Deep Variational Information Bottleneck]]"
-  - "[[Conditional Entropy Bottleneck]]"
+  - "[[Conditional Entropy Bottleneck (concept)]]"
   - "[[InfoVAE]]"
   - "[[HSIC Bottleneck]]"
   - "[[Continuous Autoregressive Language Models]]"

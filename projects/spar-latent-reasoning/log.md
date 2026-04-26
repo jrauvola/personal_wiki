@@ -4,6 +4,16 @@ Append-only record of vault changes. New entries at the top.
 
 ---
 
+## [2026-04-25] cleanup | Phase 0 wiki cleanup landed
+- Fixed stale wiki/experiments/ paths in 4 plans files (now → wiki/projects/spar-latent-reasoning/experiments/)
+- Fixed 25 broken [[experiments/X]] wikilinks in experiments.md (now → [[X]])
+- Renamed CEB concept page to disambiguate from source paper
+- Removed 3 duplicate raw papers (2508.03440, 2510.15522, 2604.04902); refs updated
+- Created research_findings/lt_tuning_phase0_case_decision.md (canonical Case C verdict)
+- Updated Branch B/D dashboards + overview.md to reflect post-Case-C state
+
+---
+
 ## [2026-04-22] autoresearch | External Memory + Gated Access Lineage for Latent Scratchpad
 
 - **Rounds:** 2 of 3 (Round 3 not needed — coverage was sufficient after Round 2).
@@ -108,7 +118,7 @@ Append-only record of vault changes. New entries at the top.
 - **Pages created (15 total, exactly at budget):**
   - **Synthesis (1):** [[Research - Info and Distribution Constraints for Latents]]
   - **Sources (9):** [[Deep Variational Information Bottleneck]] (Alemi et al., ICLR 2017); [[Conditional Entropy Bottleneck]] (Fischer, 2020); [[HSIC Bottleneck]] (Ma, Lewis, Kleijn, AAAI 2020); [[VICReg]] (Bardes, Ponce, LeCun, ICLR 2022); [[Barlow Twins]] (Zbontar et al., ICML 2021); [[Contrastive Predictive Coding]] (van den Oord, 2018, InfoNCE source); [[InfoVAE]] (Zhao, Song, Ermon, AAAI 2019); [[Continuous Autoregressive Language Models]] (CALM, arxiv 2510.27688, Oct 2025); [[KL-Regularized RL is Designed to Mode Collapse]] (arxiv 2510.20817, Oct 2025); [[Emergence of Invariance and Disentanglement]] (Achille & Soatto, JMLR 2018).
-  - **Concepts (4):** [[Variational Information Bottleneck]]; [[Conditional Entropy Bottleneck]] (concept); [[Whitening-Based Anti-Collapse]]; [[Distribution Regularizer Catalog]].
+  - **Concepts (4):** [[Variational Information Bottleneck]]; [[Conditional Entropy Bottleneck (concept)]]; [[Whitening-Based Anti-Collapse]]; [[Distribution Regularizer Catalog]].
   - **Entities (1):** [[Alex Alemi]].
 - **Primary-tier hits per project:**
   - branch-d: 9 primary — VIB, CEB, VICReg, Barlow Twins, InfoNCE, InfoVAE, CALM, Whitening concept, Distribution Regularizer Catalog. Every one directly maps to F3 / F5 / F6 failure modes.

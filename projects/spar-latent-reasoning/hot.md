@@ -1,14 +1,23 @@
 ---
 type: meta
 title: "Hot Cache"
-updated: 2026-04-24T02:00:00
+updated: 2026-04-25T00:00:00
 ---
 
 # Recent Context
 
 ## Last Updated
 
-2026-04-24 (autoresearch batch #1). Three parallel autoresearch agents completed synthesis sweeps on stability theory, information/distribution regularization, and disentanglement/sparse coding. Consolidation filed at [[meta/autoreview/2026-04-24-autoresearch-consolidation]].
+2026-04-25 (vault cleanup sweep). Phase 0 wiki cleanup landed — see "Last sweep" entry below. Underlying research state unchanged from 2026-04-24 autoresearch batch #1 (consolidation at [[meta/autoreview/2026-04-24-autoresearch-consolidation]]).
+
+## Last sweep (2026-04-25, vault cleanup)
+
+- **Phase 0 verdict pinned:** LT-Tuning Phase 0 F-battery failed. Canonical decision doc at `Latent_Reasoning_Project/research_findings/lt_tuning_phase0_case_decision.md`. Mid-layer CPF (W1.2) is the surviving intervention; **COCONUT is the primary lineage going forward**. Branch 1 CONFIRM: **mid-stack content is preserved** even when the final-layer logit lens collapses.
+- **Branch B/D dashboards** at [[meta/projects/branch-b]] and [[meta/projects/branch-d]] re-scoped to the post-Case-C state; [[overview]] rolled up.
+- **Plans hygiene:** stale `wiki/experiments/` paths in 4 plans files corrected to `wiki/projects/spar-latent-reasoning/experiments/`. 25 `[[experiments/X]]` wikilinks in `experiments.md` flattened to `[[X]]`.
+- **CEB disambiguation:** concept page renamed `Conditional Entropy Bottleneck.md` → `Conditional Entropy Bottleneck (concept).md`. 8 files audited; 8 wikilinks updated to the `(concept)` form (in `related:` lists of concept and source pages where the reference is to the mechanism, not the paper). `sources:` lists, source-paper citations, and table cells citing the paper specifically left as `[[Conditional Entropy Bottleneck]]` — those resolve to `wiki/sources/Conditional Entropy Bottleneck.md`.
+- **Duplicate raw papers removed:** `2508.03440-soft-thinking-single-threaded.md`, `2510.15522-latent-sft-superposition.md`, `2604.04902-are-lrms-interpretable.md`. References in `Stochastic Soft Thinking.md` and `Latent-SFT.md` updated to canonical files.
+- **No new broken wikilinks introduced.** Only residual `wiki/experiments/` mention is the file-convention description in the body of `experiments.md` — not a link.
 
 ## Top 5 findings from this batch (2026-04-24 autoresearch)
 

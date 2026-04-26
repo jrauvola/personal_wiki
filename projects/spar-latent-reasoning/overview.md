@@ -1,11 +1,29 @@
 ---
 type: overview
 title: "Overview"
-updated: 2026-04-22
-status: developing
+updated: 2026-04-25
+status: case-c-pivot
 ---
 
 # Latent Reasoning — Overview
+
+## ⚠️ Project state as of 2026-04-25 (post Case C)
+
+**Phase 2b (LT-Tuning CPF training) DONE.** Result: **Case C** per spec §4.5 — final-layer CPF failed at Qwen3-4B. GSM8k 1.67% (vs V2 baseline 12.06%); template SHIFTED from `The/0/.` to `isha:` / `) is:`; loop rate 99%. Full verdict: `research_findings/lt_tuning_phase0_case_decision.md`.
+
+**Branch 1 layer-asymmetric probe: CONFIRM.** F3 template-lock is a readout artifact. Mid-stack (L28-L30) preserves per-example variation; final layers collapse it into routing template. Mid-layer CPF (W1.2 Phase 2) remains the live CODI extension; do NOT generalize Case C as "all CPF failed."
+
+**Active execution priority post-Case-C:**
+1. 🚀 W3.1 COCONUT — primary Track-B per spec §4.5. Phase A sanity (community checkpoint inference) before full retrain.
+2. 🟢 Pre-Step #0 KV-norm-at-answer probe — tests Christopher's bandwidth hypothesis. Cheap (~0.5 GPU-hr).
+3. 🟢 W1.1 / W1.3 / W1.3b inference probes — cheap, parallel with above.
+4. 🟢 W2.4b SIM-CoT Phase 2a — auxiliary-decoder mechanism (different from CPF), still live.
+5. 🟢 W1.2 Phase 2 mid-layer CPF — surviving CODI-extension candidate.
+6. ⏸️ W2.1 / W2.2 / W2.3 — deprioritized; W2.2 needs MoCo/effective-batch precheck before any spend.
+
+Done experiments: see `wiki/projects/spar-latent-reasoning/experiments.md` (25 nodes — F1-F6, E1-E4, KV PCA, Track A trim, Phase 2b LT-Tuning, Branch 1 probe, etc.).
+
+---
 
 ## The landscape
 

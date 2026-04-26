@@ -41,7 +41,7 @@ Each agent created sources/concepts/entities/questions pages and appended to `lo
 ### Concept breakdown
 
 - **Stability (5):** [[Fixed-Point Iteration]], [[Deep Equilibrium Model (DEQ)]], [[Lyapunov Stability]], [[Spectral Regularization]], [[Jacobian Constraint]].
-- **Info/Dist (4):** [[Variational Information Bottleneck]], [[Conditional Entropy Bottleneck]] (concept-flavored; same filename as source paper — see hygiene issues below), [[Whitening-Based Anti-Collapse]], [[Distribution Regularizer Catalog]].
+- **Info/Dist (4):** [[Variational Information Bottleneck]], [[Conditional Entropy Bottleneck (concept)]] (renamed 2026-04-25 to disambiguate from source paper), [[Whitening-Based Anti-Collapse]], [[Distribution Regularizer Catalog]].
 - **Disentanglement (5):** [[Superposition]], [[Sparse Autoencoder]], [[Feature Absorption and Splitting]], [[Matryoshka Sparse Autoencoder]], [[Causal Disentanglement]].
 
 ### Entity breakdown

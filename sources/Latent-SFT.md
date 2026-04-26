@@ -42,7 +42,7 @@ related:
   - "[[Feature Collapse]]"
   - "[[Context-Prediction-Fusion]]"
 sources:
-  - "[[.raw/papers/2510.15522-latent-sft-superposition]]"
+  - "[[.raw/papers/2510.15522-latent-reasoning-chain-of-superposition]]"
 projects:
   - slug: "branch-d"
     relevance: primary
@@ -113,4 +113,4 @@ Analysis confirms captured trajectories are diverse, not collapsed onto one path
 
 - **Paper:** [arXiv:2510.15522](https://arxiv.org/abs/2510.15522)
 - **Code:** none released at crawl time.
-- **Raw source:** [[.raw/papers/2510.15522-latent-sft-superposition]]
+- **Raw source:** [[.raw/papers/2510.15522-latent-reasoning-chain-of-superposition]]
