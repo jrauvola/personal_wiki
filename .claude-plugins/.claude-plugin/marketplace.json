@@ -1,0 +1,15 @@
+{
+  "name": "personal-wiki-marketplace",
+  "owner": {
+    "name": "Josh Rauvola",
+    "email": "jrauvola@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "personal-wiki-tools",
+      "description": "Research and ingest skills for the personal wiki vault. Includes autoresearch-hybrid (WebSearch discovery + Semantic Scholar citation expansion).",
+      "source": "./personal-wiki-tools",
+      "category": "research"
+    }
+  ]
+}

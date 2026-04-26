@@ -1,0 +1,9 @@
+{
+  "name": "personal-wiki-tools",
+  "version": "0.1.0",
+  "description": "Skills for maintaining the personal Obsidian research wiki at ~/Desktop/wiki. Currently provides: autoresearch-hybrid (WebSearch for keyword discovery + Semantic Scholar for citation-graph expansion, per evidence in projects/lpcvc-2026-track1/experiments/s2-vs-websearch-routing-rule.md).",
+  "author": {
+    "name": "Josh Rauvola",
+    "email": "jrauvola@gmail.com"
+  }
+}
