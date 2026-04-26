@@ -13,7 +13,11 @@ artifacts:
   - research_findings/layer_probe/v2_bf16_step3/layer_asymmetric_probe.png
   - research_findings/layer_probe/v2_bf16_step3/analyze.py
   - research_findings/layer_probe/v2_bf16_step3/hidden_all_layers/
-updated: 2026-04-25
+  - research_findings/layer_probe/v2_bf16_step3/logit_lens_per_layer.md
+  - research_findings/layer_probe/v2_bf16_step3/logit_lens_per_layer.json
+  - research_findings/layer_probe/v2_bf16_step3/logit_lens_per_layer.png
+  - research_findings/layer_probe/v2_bf16_step3/logit_lens.py
+updated: 2026-04-23
 ---
 
 # Branch 1 — Layer-asymmetric probe
@@ -63,6 +67,7 @@ Eval summary alongside the dump: 500/500 examples completed at 18.6% accuracy (m
 
 ## Follow-ups / branch-offs
 
-- Logit-lens-per-layer entropy: deferred follow-up. Required: download Qwen3-4B shard 1/3 (~8 GB) for `embed_tokens.weight`, then project per-layer hidden state through tied lm_head. Designated as next-step.
+- **Logit-lens per layer at step 3 — DONE 2026-04-23.** See `research_findings/layer_probe/v2_bf16_step3/logit_lens_per_layer.md`. Used the CODI-tuned bf16 checkpoint (HF cache on GH200; `embed_tokens` tied to `lm_head`, `max|Δ|=0` verified) — no need to download base shard 1/3. **F3 anchor cross-validation passed** (raw L36 projection: H = 1.407 b vs F3's 1.493 b; top-1 `0` at 57.6% vs 54.3%; n=500 vs 1319). **Headline finding: entropy peak ≠ geometric trough.** Logit-lens entropy peaks at **L18-22** (max **2.97 b at L19**, 21 unique top-1 tokens), while L28-30 (the geometric dispersion peak) has entropy **0.25-0.79 b**, dominated by `'的答案'` (Chinese "the answer") at 85-97%. The mid-stack geometric scatter exists in a subspace orthogonal to the unembed; the readout collapses it to a *different* template (`'的答案'`) than L36's `0`/`./`/`1`. **V3 design implication:** discrete-token-anchored CPF at L28-30 is unattractive (`'的答案'` is not a CPF target you want); a continuous Δh embedding-space CPF (SIM-CoT style) is the better path, OR a linear probe at L18-22 to test for arithmetic structure that argmax misses.
 - Wiki refs: [[concepts/Routing vs Reasoning]] §"Layer-asymmetric refinement", [[concepts/Feature Collapse]] §"Branch-1 layer-wise result", [[concepts/Context-Prediction-Fusion]] §"Middle-layer anchoring candidate".
-- Resolves [[f3-layer-wise-step3]] (the deferred logit-lens-per-layer experiment) at the geometric level. The full logit-lens version remains deferred.
+- Resolves [[f3-layer-wise-step3]] both geometrically (Branch 1) and now semantically (logit-lens per layer).
+- Designated next follow-ups: (a) per-layer linear probe for first arithmetic operand at L18-22 vs L28-30 to test the orthogonal-subspace hypothesis; (b) cross-step logit-lens replication at steps 0/4/7.

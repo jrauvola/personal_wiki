@@ -12,113 +12,82 @@ updated: 2026-04-25
 
 ## Last Updated
 
-2026-04-25 — autoresearch round 3 with 4 parallel subagents. Total filed: 14 pages across 3 rounds. Major new finding: possible MobileCLIP-S2/MCi2 vs MobileCLIP2-S4/MCi4 checkpoint mismatch — flagged as P0.
+2026-04-25 — autoresearch-hybrid validation run on "MobileCLIP2 R@10 on Hexagon" succeeded. Filed [[questions/Research - MobileCLIP2 R@10 on Hexagon NPU]] + 3 sources + 1 concept.
 
-## Top Findings (autoresearch rounds 1-3)
+## 🚨 P0 RESOLVED: deployed checkpoint is MobileCLIP2-S2, NOT S4
 
-### 🚨 P0: VERIFY — which MobileCLIP checkpoint is actually deployed?
-- Team brief says MobileCLIP2-S4 (uses MCi4, ~321M image params).
-- Measured 13.7 ms INT8 image encoder is consistent with **MCi2** (~36M image params), not MCi4.
-- 5-min check: `grep "mobileclip2_s4\|mci4"` in codebase + count params on loaded model.
-- See [[questions/Open Question - Which MobileCLIP Checkpoint Is Actually Deployed]].
+[[sources/AXERA MobileCLIP2 w8a16 Deployment]] published per-encoder latency table for both variants on AX650 NPU at w8a16:
+- **MobileCLIP2-S2:** image enc 19.1 ms, text enc 5.7 ms, combined ~25 ms ✓
+- **MobileCLIP2-S4:** image enc 65.3 ms, text enc 12.7 ms, combined ~78 ms ✗
 
-### 🔥 LPCVC 2025 Track 2 (SEUDecoder) is the closest VL analog
-- Same QAI Hub workflow as 2026. Same Snapdragon class. Vision+text dual-encoder pattern.
-- Winning recipe: **frozen well-quantising VL backbone + small fine-tuned head/decoder**. 3rd place explicitly fine-tuned XDecoder rather than replacing backbone.
-- Direct read-across: freeze MobileCLIP image encoder; fine-tune only text side (CLIC) or thin projection.
-- See [[sources/LPCVC 2025 Cross-Track Lessons]].
+Team-measured 13.7 ms image encoder INT8 on Qualcomm XR2 Gen 2 = consistent with MCi2 / S2, NOT MCi4 / S4. Update `lpcvc_models.py` defaults and `AGENTS.md` if needed. Resolves [[questions/Open Question - Which MobileCLIP Checkpoint Is Actually Deployed]].
 
-### 🔥 Cheapest single latency win: drop input resolution
-- LPCVC 2025 Track 3 winner (UMN): "Reducing image resolution significantly improves running time while having only a minor impact on accuracy, especially for ViT-based architectures."
-- Team currently runs 224 input on a 256-native MCi backbone (resize baked in graph). Try **192 or 160** before exotic optimizations.
+## Top Findings (autoresearch rounds 1-3 + hybrid validation run)
 
-### 🔥 Per-channel weight quantization is mandatory for MCi-family
-- MCi2 is depthwise-heavy (RepMixer + ConvFFN-DW + RepCPE + stem DW + patch-embed depthwise). Per-tensor weights catastrophically fail on depthwise (~50× channel variance).
-- Verify QAI Hub default has per-channel ON. Without it, expect >1pp R@10 loss vs FP.
-- See [[sources/MobileCLIP2 Architecture and FastViT-MCi Family]].
+### 🔥 w8a16 is the cross-vendor production default for MobileCLIP2
+AXERA defaults to w8a16 (not pure W8A8). Cross-validates `--lite_mp percentage=N;override_qtype=int16` as the right Hub flag when pure W8A8 hurts.
 
-### 🔥 W8A16 is the standard production setting for transformer attention on Hexagon
-- Pure W8A8 typically fails on attention activation outliers (heavy tails).
-- QAI Hub supports A16W8 globally. **AMENDED 2026-04-25:** Hub *also* supports partial mixed precision via `--lite_mp percentage=N;override_qtype=int16` (promotes a percentage of layers to int16). AIMET is only needed for *fully arbitrary per-op* precision (specific ops like softmax + LayerNorm). The earlier "mixed precision unsupported" claim was wrong — corrected in [[sources/AIMET to QAI Hub Workflow]] (confidence: medium until team verifies on live Hub job).
-- See [[sources/AIMET to QAI Hub Workflow]].
+### 🔥 Activation-aware quantization decision tree (try in this order)
+1. **Family A (cheap):** `--lite_mp` flag in Hub `submit_quantize_job`. Most likely sufficient.
+2. **Family B (vision-specific):** RegCache prefix-token outlier absorption ([[sources/RegCache - Activation Quantization Vision Encoders]]). Training-free.
+3. **Family C (heavy):** AIMET native + AdaRound + per-op INT16 on softmax/LayerNorm.
 
-### 🆕 LPCV 2025 organizer-authored evaluation paper (arXiv 2604.19054)
-- Peer-reviewed paper by LPCVC organizers (first author Yung-Hsiang Lu, LPCVC founder) analyzing what won in 2025 under the same QAI Hub workflow.
-- Surfaced via Semantic Scholar; WebSearch missed this in 4 prior autoresearch rounds.
-- Single most-direct prior-art reference for our submission. Read before final submit.
-- See [[sources/LPCV 2025 Evaluation Paper]].
+See [[concepts/Activation-Aware Quantization Tactics for Vision Encoders]].
 
-### 🔥 Matryoshka loss = single training run gives entire accuracy/latency Pareto
-- One training pass with `matryoshka_dims=[64,128,256,384,512,768]` produces a model where you can pick the dim at submission. <0.019 nDCG gap between 256-d and 512-d on CLIP retrieval.
-- See [[concepts/Matryoshka Embeddings for CLIP Retrieval]].
+### 🔥 MobileCLIP2 reports R@1, not R@10
+Apple's published metric is R@1 on COCO/Flickr. Use as a *lower bound* for our R@10. Relative ranking across variants should hold.
+
+### 🔥 DFNDR-2B-trained MobileCLIP2 is biased toward zero-shot classification
+Apple acknowledges in MobileCLIP2 paper: "DFN-pretrained students do not always achieve SOTA retrieval." Implication: MobileCLIP2 may not be optimal for retrieval even ignoring quantization. Fine-tune (CLIC-style) is more important. See [[sources/CLIC - Compositional Awareness in CLIP]].
+
+### 🔥 LPCVC 2025 evaluation paper (arXiv 2604.19054)
+Peer-reviewed paper by LPCVC organizers (first author Yung-Hsiang Lu). Single most-direct prior-art reference. Read before submission. See [[sources/LPCV 2025 Evaluation Paper]].
+
+### EfficientFormer NPU data contradicts swish→ReLU intuition
+ReLU saves only 0.5 ms over GeLU on iPhone NPU but loses 3.1% accuracy. HardSwish is 10× SLOWER than GeLU. Profile XR2 Gen 2 first; bottleneck is more likely a CPU-fallback op than activation. See [[sources/EfficientFormer Activation Function Ablation]].
 
 ### CLIC text-encoder-only fine-tune (highest yield for the deadline)
-- 0.01% pretraining cost. Improves SugarCrepe Replace 86.5% / Swap 84.8%. Maintains MS-COCO retrieval.
-- Vision encoder graph unchanged → no image-encoder recompile needed.
-- See [[sources/CLIC - Compositional Awareness in CLIP]].
+0.01% pretraining cost. Improves SugarCrepe Replace 86.5% / Swap 84.8%. Maintains MS-COCO retrieval. Vision encoder graph unchanged. See [[sources/CLIC - Compositional Awareness in CLIP]].
 
-### Activation function (swish→ReLU): probably NOT the win the team thinks
-- EfficientFormer iPhone NPU: ReLU saves 0.5 ms over GeLU but loses 3.1% accuracy. HardSwish 10× slower than GeLU.
-- Hexagon-MLIR docs use GELU as their motivating polynomial-approximation example — operational on HTP, slower than ReLU but not catastrophic.
-- Profile XR2 Gen 2 first; CPU-fallback ops (Resize, custom ops) likely dominate over activation.
-
-### Knowledge distillation is the most-repeated tactic in LPCV history
-- 2/3 of 2023 podium teams used it. SigLIP2 image encoder → MobileCLIP image encoder (with frozen CLIP-tokenizer text head, per DCLIP pattern) is the most LPCVC-compliant variant.
-- See [[concepts/Knowledge Distillation for Mobile CLIP Retrieval]].
-
-### LPCVC 2024 didn't run
-- Series went on hiatus. LPCVC 2025 (under QAI Hub) is the only relevant prior. No 2024 winning recipes exist.
+### LPCVC 2025 Track 2 (SEUDecoder) is the closest VL analog
+Winner pattern: frozen well-quantising VL backbone + small fine-tuned head/decoder. See [[sources/LPCVC 2025 Cross-Track Lessons]].
 
 ## Active threads
 
-- Verify checkpoint identity (MCi2 vs MCi4) — 5-min check.
-- Profile XR2 Gen 2 — identify CPU-fallback ops.
-- Score current INT8 on sample set (the existing TODO).
-- Self_training pipeline development continues.
+- ✅ Verify checkpoint identity — done by AXERA evidence (MobileCLIP2-S2)
+- Profile XR2 Gen 2 — identify CPU-fallback ops
+- Score current INT8 on sample set (the existing TODO)
+- Validate Family A (`--lite_mp`) before reaching for Family B/C
 
-## Recommended action ordering (5-day window)
+## Recommended action ordering (5-day window, updated 2026-04-25)
 
 | Pri | Action | Time | Reasoning |
 |-----|--------|------|-----------|
-| **P0** | Verify which checkpoint is deployed (5 min) | 5 min | Reframes everything else |
-| **P0** | Profile XR2 Gen 2; identify CPU-fallback ops; score current INT8 on sample | 1 day | Submission requires this anyway |
-| **P0** | Verify per-channel weight quantization is ON in QAI Hub recipe | 30 min | Catastrophic if off |
-| **P1** | CLIC-style text-encoder fine-tune | 1-2 days | Largest accuracy lever; image graph untouched |
-| **P1** | Try 192px input variant (re-export + recompile + score) | <1 day | Cheap latency win per LPCVC 2025 T3 |
-| **P2** | Try W8A16 globally if R@10 dropped from FP | 1 day | Fallback for attention outliers |
-| **P2** | Matryoshka loss in self_training; gives accuracy/dim trade-space | 1-2 days | Free Pareto from one run |
-| **P3** | Activation swap experiments (only if P0 profile shows swish as actual bottleneck) | 1 day | Likely small win, real accuracy cost |
-| **P3** | Distill SigLIP2-B image encoder → MobileCLIP image encoder, frozen CLIP text head | 2 days | Highest ceiling, highest risk |
+| **P0** | Update `AGENTS.md` and `lpcvc_models.py` to reflect MobileCLIP2-S2 (not S4) as deployed model | 10 min | Avoids further misattribution |
+| **P0** | Score current MobileCLIP2-S2 INT8 on sample set; identify Recall@10 baseline | <1 day | Flying blind without this |
+| **P0** | Profile XR2 Gen 2; identify CPU-fallback ops | 1 day | Submission requires this anyway |
+| **P1** | If Recall@10 hurts: try `--lite_mp percentage=15;override_qtype=int16` (Family A) | <1 day | Cross-vendor validated by AXERA's w8a16 default |
+| **P1** | CLIC-style text-encoder fine-tune | 1-2 days | Largest accuracy lever, image graph untouched |
+| **P2** | If Family A insufficient: prototype RegCache prefix-token outlier absorption (Family B) | 1 day | Vision-specific; training-free |
+| **P2** | Try 192px input variant per LPCVC 2025 T3 lesson | <1 day | Cheap latency win for ViT-based encoders |
+| **P3** | Distill from larger CLIP teacher into S2 | 2 days | Most-repeated tactic in LPCV history |
 
-## Pages created (all 3 rounds)
+## Pages by area
 
-**Synthesis + open questions:**
-- [[questions/Research - LPCVC 2026 Track 1 Winning Recipes]]
-- [[questions/Open Question - Which MobileCLIP Checkpoint Is Actually Deployed]]
-
-**Sources:**
-- [[sources/EfficientFormer Activation Function Ablation]]
-- [[sources/CLIC - Compositional Awareness in CLIP]]
-- [[sources/CLIP-LoRA - Low-Rank Few-Shot Adaptation]]
-- [[sources/Qualcomm AI Hub Quantization Documentation]]
-- [[sources/MobileCLIP2 Architecture and FastViT-MCi Family]]
-- [[sources/AIMET to QAI Hub Workflow]]
-- [[sources/LPCVC 2025 Cross-Track Lessons]]
-
-**Concepts:**
-- [[concepts/Activation Function Latency-Accuracy Tradeoff on Mobile NPU]]
-- [[concepts/Compositionality Fine-Tuning for CLIP Retrieval]]
-- [[concepts/INT8 Calibration for Vision-Language Models]]
-- [[concepts/Hard-Negative Loss for Vision-Language Models]]
-- [[concepts/Matryoshka Embeddings for CLIP Retrieval]]
-
-**Entities:**
-- [[entities/Snap Research]]
+- **Architecture:** [[sources/MobileCLIP2 Architecture and FastViT-MCi Family]]
+- **Quantization:** [[sources/AIMET to QAI Hub Workflow]] · [[sources/Qualcomm AI Hub Quantization Documentation]] · [[sources/AXERA MobileCLIP2 w8a16 Deployment]] · [[sources/AWQ - Activation-aware Weight Quantization]] · [[sources/RegCache - Activation Quantization Vision Encoders]] · [[concepts/INT8 Calibration for Vision-Language Models]] · [[concepts/Activation-Aware Quantization Tactics for Vision Encoders]]
+- **Activation tradeoffs:** [[sources/EfficientFormer Activation Function Ablation]] · [[concepts/Activation Function Latency-Accuracy Tradeoff on Mobile NPU]]
+- **Compositionality / fine-tuning:** [[sources/CLIC - Compositional Awareness in CLIP]] · [[sources/CLIP-LoRA - Low-Rank Few-Shot Adaptation]] · [[concepts/Compositionality Fine-Tuning for CLIP Retrieval]] · [[concepts/Hard-Negative Loss for Vision-Language Models]]
+- **Distillation / training:** [[concepts/Matryoshka Embeddings for CLIP Retrieval]]
+- **LPCV history:** [[sources/LPCVC 2025 Cross-Track Lessons]] · [[sources/LPCV 2025 Evaluation Paper]]
+- **Synthesis:** [[questions/Research - LPCVC 2026 Track 1 Winning Recipes]] · [[questions/Research - MobileCLIP2 R@10 on Hexagon NPU]]
+- **Open questions:** [[questions/Open Question - Which MobileCLIP Checkpoint Is Actually Deployed]] (resolved by AXERA evidence)
 
 ## Open questions still unresolved
 
-- AIMET-vs-QAI-Hub-built-in measured Recall@10 delta on MobileCLIP-family — no public side-by-side. Worth team experiment.
-- Exact `options` flag strings for `submit_quantize_job` (per_channel, adaround, calibration_method) — not in public docs.
-- LPCVC 2025 Track 2 SICer/SEUDecoder team writeup — architecture details not published. Worth direct outreach.
-- TripletCLIP retrieval-specific R@K (vs the published compositionality numbers).
-- Sigmoid vs softmax contrastive loss under LoRA fine-tuning — no measured comparison.
+- Team's actual measured Recall@10 on LPCVC sample (P0 TODO).
+- Does Hexagon W8A8 on MobileCLIP2-S2 hit the AXERA w8a16 latency or beat it?
+- Does RegCache work on MobileCLIP2 image graph as exported? (No public test.)
+- AXERA's exact calibration recipe in `AXERA-TECH/axera.ml-mobileclip` GitHub.
+- TernaryCLIP measured Recall@K on COCO/Flickr (abstract didn't surface).
+- TinyCLIP comparison with MobileCLIP-family — not in TinyCLIP paper directly.

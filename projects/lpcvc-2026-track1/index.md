@@ -40,6 +40,15 @@ To find pages tagged with this project's slug, query the vault root:
 - [[sources/AIMET to QAI Hub Workflow]] — operational reference (amended 2026-04-25 with lite_mp)
 - [[sources/LPCVC 2025 Cross-Track Lessons]] — secondary writeup of 2025 winners
 - [[sources/LPCV 2025 Evaluation Paper]] — primary organizer paper (arXiv 2604.19054)
+- [[sources/AXERA MobileCLIP2 w8a16 Deployment]] — only public mobile-NPU MobileCLIP2 deployment (per-encoder latency table)
+- [[sources/AWQ - Activation-aware Weight Quantization]] — Lin et al., MIT-Han Lab, 2023 (foundational)
+- [[sources/RegCache - Activation Quantization Vision Encoders]] — vision-specific INT8 fix via prefix tokens (arXiv 2510.04547)
+
+**Concepts (added 2026-04-25):**
+- [[concepts/Activation-Aware Quantization Tactics for Vision Encoders]] — 3-family decision tree (lite_mp → RegCache → AIMET+AdaRound)
+
+**Synthesis (added 2026-04-25):**
+- [[questions/Research - MobileCLIP2 R@10 on Hexagon NPU]] — autoresearch-hybrid validation run synthesis
 
 **Concepts:**
 - [[concepts/Activation Function Latency-Accuracy Tradeoff on Mobile NPU]]
